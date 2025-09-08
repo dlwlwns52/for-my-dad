@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fms/constants/app_colors.dart';
+import 'package:flutter/services.dart'; // 햅틱용
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -32,7 +33,7 @@ class _MainScreenState extends State<MainScreen> {
                   SizedBox(height: 50.h),
                   _statCard(),
                   SizedBox(height: 34.h),
-                  _saveCurrentLocation(),
+                  _saveCurrentLocation(context),
                   SizedBox(height: 17.h),
                   _viewSavedLocations(),
                   SizedBox(height: 50.h),
@@ -128,44 +129,53 @@ Widget _statCard() {
 }
 
 //MARK: 현재 위치 저장하기
-Widget _saveCurrentLocation() {
+
+Widget _saveCurrentLocation(BuildContext context) {
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: 26.w),
-    child: Container(
-      constraints: BoxConstraints(minHeight: 63.h), // Figma 높이
-      // padding: EdgeInsets.symmetric(vertical: 18.h, horizontal: 77.w),
-      decoration: BoxDecoration(
-        color: AppColors.forestGreen,
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.25), // #000000, opacity 25%
-            offset: Offset(0, 2), // X:0, Y:2
-            blurRadius: 4, // 흐림(Blur): 4
-            spreadRadius: 0, // 스프레드: 0
-          ),
-        ],
-      ),
-      child: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset(
-              'assets/icon/currentSpot.svg',
-              width: 24.w,
-              height: 24.w,
-            ),
-            SizedBox(width: 15.w),
-            Text(
-              "현재 위치 저장하기",
-              style: TextStyle(
-                color: Colors.white,
-                fontFamily: "Pretendard",
-                fontSize: 20.sp,
-                fontWeight: FontWeight.w600,
+    child: Material(
+      color: Colors.transparent, // 잊지 마! 배경색은 Container에서 처리함
+      child: InkWell(
+        borderRadius: BorderRadius.circular(15), // ripple도 radius 맞춰야 자연스러움
+        onTap: () {
+          HapticFeedback.heavyImpact();
+        },
+        child: Container(
+          constraints: BoxConstraints(minHeight: 63.h),
+          decoration: BoxDecoration(
+            color: AppColors.forestGreen,
+            borderRadius: BorderRadius.circular(15),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.25),
+                offset: Offset(0, 2),
+                blurRadius: 4,
+                spreadRadius: 0,
               ),
+            ],
+          ),
+          child: Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  'assets/icon/currentSpot.svg',
+                  width: 24.w,
+                  height: 24.w,
+                ),
+                SizedBox(width: 15.w),
+                Text(
+                  "현재 위치 저장하기",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: "Pretendard",
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     ),
@@ -176,41 +186,52 @@ Widget _saveCurrentLocation() {
 Widget _viewSavedLocations() {
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: 26.w),
-    child: Container(
-      constraints: BoxConstraints(minHeight: 63.h), // Figma 높이
-      decoration: BoxDecoration(
-        color: Color(0xFFF8FDF6),
-        borderRadius: BorderRadius.circular(15),
-        border: Border.all(color: AppColors.forestGreen),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.25), // #000000, opacity 25%
-            offset: Offset(0, 2), // X:0, Y:2
-            blurRadius: 4, // 흐림(Blur): 4
-            spreadRadius: 0, // 스프레드: 0
-          ),
-        ],
-      ),
-      child: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset(
-              'assets/icon/storeSpot.svg',
-              width: 24.w,
-              height: 24.w,
-            ),
-            SizedBox(width: 15.w),
-            Text(
-              "저장된 장소 보기",
-              style: TextStyle(
-                color: AppColors.forestGreen,
-                fontFamily: "Pretendard",
-                fontSize: 20.sp,
-                fontWeight: FontWeight.w600,
+    child: Material(
+      color: Colors.transparent, // 잊지 마! 배경색은 Container에서 처리함
+      child: InkWell(
+        borderRadius: BorderRadius.circular(15), // ripple도 radius 맞춰야 자연스러움
+        onTap: () {
+          HapticFeedback.heavyImpact();
+        },
+        child: Container(
+          constraints: BoxConstraints(minHeight: 63.h), // Figma 높이
+          decoration: BoxDecoration(
+            color: Color(0xFFF8FDF6),
+            borderRadius: BorderRadius.circular(15),
+            border: Border.all(color: AppColors.forestGreen),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(
+                  alpha: 0.25,
+                ), // #000000, opacity 25%
+                offset: Offset(0, 2), // X:0, Y:2
+                blurRadius: 4, // 흐림(Blur): 4
+                spreadRadius: 0, // 스프레드: 0
               ),
+            ],
+          ),
+          child: Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  'assets/icon/storeSpot.svg',
+                  width: 24.w,
+                  height: 24.w,
+                ),
+                SizedBox(width: 15.w),
+                Text(
+                  "저장된 장소 보기",
+                  style: TextStyle(
+                    color: AppColors.forestGreen,
+                    fontFamily: "Pretendard",
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     ),
