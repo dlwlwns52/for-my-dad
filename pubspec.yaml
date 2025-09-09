@@ -13,6 +13,9 @@ dependencies:
   cupertino_icons: ^1.0.8
   flutter_screenutil: ^5.9.3
   flutter_svg: ^2.2.0
+  # 위치구하기
+  geolocator: ^14.0.2
+  baseflow_plugin_template: ^2.2.0
 
 dev_dependencies:
   flutter_test:
