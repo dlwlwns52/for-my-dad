@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fms/UIApplication/save_currentlocation.dart';
 import 'package:fms/constants/app_colors.dart';
 import 'package:flutter/services.dart'; // 햅틱용
 
@@ -138,7 +139,11 @@ Widget _saveCurrentLocation(BuildContext context) {
       child: InkWell(
         borderRadius: BorderRadius.circular(15), // ripple도 radius 맞춰야 자연스러움
         onTap: () {
-          HapticFeedback.heavyImpact();
+          HapticFeedback.mediumImpact();
+          showDialog(
+            context: context,
+            builder: (context) => SaveCurrentLocation(),
+          );
         },
         child: Container(
           constraints: BoxConstraints(minHeight: 63.h),
@@ -147,7 +152,7 @@ Widget _saveCurrentLocation(BuildContext context) {
             borderRadius: BorderRadius.circular(15),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.25),
+                color: Colors.black.withValues(alpha: 0.25),
                 offset: Offset(0, 2),
                 blurRadius: 4,
                 spreadRadius: 0,
@@ -191,7 +196,7 @@ Widget _viewSavedLocations() {
       child: InkWell(
         borderRadius: BorderRadius.circular(15), // ripple도 radius 맞춰야 자연스러움
         onTap: () {
-          HapticFeedback.heavyImpact();
+          HapticFeedback.mediumImpact();
         },
         child: Container(
           constraints: BoxConstraints(minHeight: 63.h), // Figma 높이

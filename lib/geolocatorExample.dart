@@ -110,7 +110,7 @@ class _GeolocatorWidgetState extends State<GeolocatorWidget> {
               itemCount: _positionItems.length,
               itemBuilder: (context, index) {
                 final positionItem = _positionItems[index];
-
+                // 로그값 나올때
                 if (positionItem.type == _PositionItemType.log) {
                   return ListTile(
                     title: Text(
@@ -123,6 +123,7 @@ class _GeolocatorWidgetState extends State<GeolocatorWidget> {
                     ),
                   );
                 } else {
+                  // 위치 값 나올때
                   return Card(
                     child: ListTile(
                       tileColor: themeMaterialColor,
@@ -139,6 +140,7 @@ class _GeolocatorWidgetState extends State<GeolocatorWidget> {
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
+                //MARK: 위치 정보 실시간 구독
                 FloatingActionButton(
                   onPressed: () {
                     positionStreamStarted = !positionStreamStarted;
@@ -157,11 +159,13 @@ class _GeolocatorWidgetState extends State<GeolocatorWidget> {
                       : const Icon(Icons.pause),
                 ),
                 sizedBox,
+                //MARK:  즉시 현재 위치를 한 번 조회
                 FloatingActionButton(
                   onPressed: _getCurrentPosition,
                   child: const Icon(Icons.my_location),
                 ),
                 sizedBox,
+                //MARK: 기기에 저장된 마지막 알려진 위치를 불러오는 버튼
                 FloatingActionButton(
                   onPressed: _getLastKnownPosition,
                   child: const Icon(Icons.bookmark),
@@ -175,13 +179,17 @@ class _GeolocatorWidgetState extends State<GeolocatorWidget> {
   }
 
   Future<void> _getCurrentPosition() async {
+    // 위치 권한 받아옴
     final hasPermission = await _handlePermission();
 
+    // 위치 권한 false 시 반환
     if (!hasPermission) {
       return;
     }
 
+    //현재 위치 받아옴
     final position = await _geolocatorPlatform.getCurrentPosition();
+
     _updatePositionList(_PositionItemType.position, position.toString());
   }
 
@@ -189,12 +197,9 @@ class _GeolocatorWidgetState extends State<GeolocatorWidget> {
     bool serviceEnabled;
     LocationPermission permission;
 
-    // Test if location services are enabled.
+    // 스마트폰의 GPS 버튼이 꺼져 있는지 확인
     serviceEnabled = await _geolocatorPlatform.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      // Location services are not enabled don't continue
-      // accessing the position and request users of the
-      // App to enable the location services.
       _updatePositionList(
         _PositionItemType.log,
         _kLocationServicesDisabledMessage,
@@ -204,32 +209,26 @@ class _GeolocatorWidgetState extends State<GeolocatorWidget> {
     }
 
     permission = await _geolocatorPlatform.checkPermission();
+    // 위치 권한 거부 상태 - 앱에서 위치 권한시 거부함
     if (permission == LocationPermission.denied) {
+      // 위치 권한 재요청
       permission = await _geolocatorPlatform.requestPermission();
       if (permission == LocationPermission.denied) {
-        // Permissions are denied, next time you could try
-        // requesting permissions again (this is also where
-        // Android's shouldShowRequestPermissionRationale
-        // returned true. According to Android guidelines
-        // your App should show an explanatory UI now.
         _updatePositionList(_PositionItemType.log, _kPermissionDeniedMessage);
-
         return false;
       }
     }
-
+    // 앱 위치권한 영구 거부 - 사용자가 설정에서 거부함
     if (permission == LocationPermission.deniedForever) {
-      // Permissions are denied forever, handle appropriately.
       _updatePositionList(
         _PositionItemType.log,
         _kPermissionDeniedForeverMessage,
       );
+      // 설정으로 이동하는 기능 추가
 
       return false;
     }
-
-    // When we reach here, permissions are granted and we can
-    // continue accessing the position of the device.
+    // 성공시 로그 저장
     _updatePositionList(_PositionItemType.log, _kPermissionGrantedMessage);
     return true;
   }
