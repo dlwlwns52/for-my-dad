@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SaveCurrentLocation extends StatefulWidget {
   const SaveCurrentLocation({super.key});
@@ -11,23 +12,13 @@ class SaveCurrentLocation extends StatefulWidget {
 class _SaveCurrentLocationState extends State<SaveCurrentLocation> {
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text("제목"),
-      content: const Text("내용"),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text("취소"),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            // 확인 동작
-            _getCurrentPosition();
-            // Navigator.pop(context);
-          },
-          child: const Text("현재 위치 테스트"),
-        ),
-      ],
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12), // 둥근 모서리
+      ),
+      insetPadding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 11.w),
+      backgroundColor: Color(0xFFF8FDF6),
+      child: Container(height: 615.h, width: 373.w),
     );
   }
 }
