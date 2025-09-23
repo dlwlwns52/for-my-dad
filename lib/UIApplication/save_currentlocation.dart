@@ -24,13 +24,19 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocation> {
       child: Container(
         height: 615.h,
         width: 373.w,
-        child: Column(children: [_buildDialogHeader(context)]),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildDialogHeader(context),
+            SizedBox(height: 25.h),
+            _buildNameField(context),
+          ],
+        ),
       ),
     );
   }
 }
 
-//
 //MARK: 다이어로그 헤더(제목, 소제목)
 Widget _buildDialogHeader(BuildContext context) {
   return Padding(
@@ -81,7 +87,6 @@ Widget _buildDialogHeader(BuildContext context) {
           ],
         ),
         SizedBox(height: 8.h),
-
         RichText(
           textAlign: TextAlign.center,
           text: TextSpan(
@@ -96,6 +101,64 @@ Widget _buildDialogHeader(BuildContext context) {
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
             ],
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+//MARK: 장소 이름, 입력
+Widget _buildNameField(BuildContext context) {
+  return Padding(
+    padding: EdgeInsetsDirectional.fromSTEB(24.w, 0, 25.w, 0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "장소 이름",
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            color: AppColors.midiumText,
+            fontFamily: "Pretendard",
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        SizedBox(height: 8.h),
+        TextFormField(
+          // 입력하는 텍스트 스타일
+          style: TextStyle(
+            color: AppColors.midiumText,
+            fontFamily: "Pretendard",
+            fontSize: 17.sp,
+            fontWeight: FontWeight.w500,
+          ),
+          cursorColor: AppColors.midiumText,
+          cursorHeight: 20.0.h,
+          decoration: InputDecoration(
+            hintText: "장소 이름을 입력하세요",
+            hintStyle: TextStyle(
+              color: AppColors.forestGreen,
+              fontFamily: "Pretendard",
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w500,
+            ),
+            contentPadding: EdgeInsets.fromLTRB(12.w, 0, 23.w, 0),
+            filled: true,
+            fillColor: Colors.white,
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12.r),
+              borderSide: BorderSide(color: Colors.white),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12.r),
+              borderSide: BorderSide(
+                color: AppColors.forestGreen, // 클릭 시(포커스) 색
+                width: 2, // 클릭 시(포커스) 두께
+              ),
+            ),
           ),
         ),
       ],
