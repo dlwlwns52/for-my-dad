@@ -120,7 +120,7 @@ Widget _buildDialogHeader(BuildContext context) {
 }
 
 //MARK: 장소 이름, 입력
-Widget _buildNameField(BuildContext context) {
+Widget _buildStoreNameField(BuildContext context) {
   return Padding(
     padding: EdgeInsetsDirectional.fromSTEB(24.w, 0, 25.w, 0),
     child: Column(
