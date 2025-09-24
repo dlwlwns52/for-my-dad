@@ -21,16 +21,27 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocation> {
       ),
       insetPadding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 11.w),
       backgroundColor: Color(0xFFF8FDF6),
-      child: Container(
-        height: 615.h,
-        width: 373.w,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildDialogHeader(context),
-            SizedBox(height: 25.h),
-            _buildNameField(context),
-          ],
+
+      child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: Container(
+          height: 615.h,
+          width: 373.w,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildDialogHeader(context),
+              SizedBox(height: 25.h),
+              _buildStoreNameField(context),
+              SizedBox(height: 16.h),
+              _buildMemoField(context),
+              SizedBox(height: 19.h),
+              _buildPhotoUploadSection(context),
+            ],
+          ),
         ),
       ),
     );
