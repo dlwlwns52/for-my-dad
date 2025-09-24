@@ -177,6 +177,75 @@ Widget _buildStoreNameField(BuildContext context) {
   );
 }
 
+Widget _buildMemoField(BuildContext context) {
+  return Padding(
+    padding: EdgeInsetsDirectional.fromSTEB(24.w, 0, 25.w, 0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "메모 (선택사항)",
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            color: AppColors.midiumText,
+            fontFamily: "Pretendard",
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        SizedBox(height: 8.h),
+        TextFormField(
+          maxLines: 2,
+          // 입력하는 텍스트 스타일
+          style: TextStyle(
+            color: AppColors.midiumText,
+            fontFamily: "Pretendard",
+            fontSize: 17.sp,
+            fontWeight: FontWeight.w500,
+          ),
+          cursorColor: AppColors.midiumText,
+          cursorHeight: 20.0.h,
+          decoration: InputDecoration(
+            hintText: "장소 이름을 입력하세요",
+            hintStyle: TextStyle(
+              color: AppColors.forestGreen,
+              fontFamily: "Pretendard",
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w500,
+            ),
+            contentPadding: EdgeInsets.fromLTRB(12.w, 19.h, 23.w, 0.h),
+            filled: true,
+            fillColor: Colors.white,
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12.r),
+              borderSide: BorderSide(color: Colors.white),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12.r),
+              borderSide: BorderSide(
+                color: AppColors.forestGreen, // 클릭 시(포커스) 색
+                width: 2, // 클릭 시(포커스) 두께
+              ),
+            ),
+          ),
+        ),
+        SizedBox(height: 8.h),
+        Text(
+          "0/200자",
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            color: Color(0xFF6B8166),
+            fontFamily: "Pretendard",
+            fontSize: 12.sp,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ],
+    ),
+  );
+}
 Future<void> _getCurrentPosition() async {
   // 권한 체크 & 요청
   bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
