@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fms/constants/app_colors.dart';
 import 'package:flutter/services.dart'; // 햅틱용
+import 'package:dotted_border/dotted_border.dart';
 
 class SaveCurrentLocation extends StatefulWidget {
   const SaveCurrentLocation({super.key});
@@ -40,6 +41,8 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocation> {
               _buildMemoField(context),
               SizedBox(height: 19.h),
               _buildPhotoUploadSection(context),
+              SizedBox(height: 19.h),
+              _buildActionButtons(context),
             ],
           ),
         ),
@@ -246,6 +249,128 @@ Widget _buildMemoField(BuildContext context) {
     ),
   );
 }
+
+Widget _buildPhotoUploadSection(BuildContext context) {
+  return Padding(
+    padding: EdgeInsetsDirectional.fromSTEB(24.w, 0, 24.w, 0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "사진 (선택사항)",
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            color: AppColors.midiumText,
+            fontFamily: "Pretendard",
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        SizedBox(height: 8.h),
+        DottedBorder(
+          options: RoundedRectDottedBorderOptions(
+            color: Color(0xFFD6E2D4),
+            radius: Radius.circular(12),
+            dashPattern: [6, 5], //실선 길이, 공백 길이
+            strokeWidth: 3,
+          ),
+          child: Container(
+            width: double.infinity,
+            height: 130.h, // 필요 시 고정 높이
+            color: const Color(0xFFF4FAF1), // 연한 초록 배경
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SvgPicture.asset(
+                  'assets/icon/camera.svg',
+                  width: 35.w,
+                  height: 35.w,
+                  colorFilter: const ColorFilter.mode(
+                    Color(0xFF6B8166),
+                    BlendMode.srcIn,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  "사진을 추가하려면 클릭하세요",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: Color(0xFF6B8166),
+                    fontFamily: "Pretendard",
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget _buildActionButtons(BuildContext context) {
+  return Padding(
+    padding: EdgeInsetsDirectional.fromSTEB(24.w, 0, 24.w, 0),
+    child: Column(
+      children: [
+        GestureDetector(
+          onTap: () {},
+          child: Container(
+            width: double.infinity,
+            height: 30.h,
+            // color: AppColors.forestGreen,
+            decoration: BoxDecoration(
+              color: AppColors.forestGreen,
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: Center(
+              child: Text(
+                "저장",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: "Pretendard",
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ),
+        ),
+        SizedBox(height: 15.h),
+        GestureDetector(
+          onTap: () {},
+          child: Container(
+            width: double.infinity,
+            height: 30.h,
+            // color: AppColors.forestGreen,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(5),
+              border: Border.all(color: Color(0xFFE7F0E6), width: 1),
+            ),
+            child: Center(
+              child: Text(
+                "취소",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontFamily: "Pretendard",
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
 Future<void> _getCurrentPosition() async {
   // 권한 체크 & 요청
   bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
