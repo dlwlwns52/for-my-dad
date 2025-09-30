@@ -28,22 +28,26 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocation> {
         onTap: () {
           FocusScope.of(context).unfocus();
         },
-        child: Container(
-          height: 615.h,
-          width: 373.w,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildDialogHeader(context),
-              SizedBox(height: 25.h),
-              _buildStoreNameField(context),
-              SizedBox(height: 16.h),
-              _buildMemoField(context),
-              SizedBox(height: 19.h),
-              _buildPhotoUploadSection(context),
-              SizedBox(height: 19.h),
-              _buildActionButtons(context),
-            ],
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxWidth: 373.w, // 디자이너가 준 너비
+            maxHeight: 615.h, // 디자이너가 준 높이
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildDialogHeader(context),
+                SizedBox(height: 25.h),
+                _buildStoreNameField(context),
+                SizedBox(height: 16.h),
+                _buildMemoField(context),
+                SizedBox(height: 19.h),
+                _buildPhotoUploadSection(context),
+                SizedBox(height: 19.h),
+                _buildActionButtons(context),
+              ],
+            ),
           ),
         ),
       ),
