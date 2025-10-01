@@ -14,6 +14,16 @@ class SaveCurrentLocation extends StatefulWidget {
 }
 
 class _SaveCurrentLocationState extends State<SaveCurrentLocation> {
+  final placeNameController = TextEditingController();
+  final memoController = TextEditingController();
+
+  @override
+  void dispose() {
+    placeNameController.dispose();
+    memoController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -39,9 +49,9 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocation> {
               children: [
                 _buildDialogHeader(context),
                 SizedBox(height: 25.h),
-                _buildStoreNameField(context),
+                _buildPlaceNameField(context, placeNameController),
                 SizedBox(height: 16.h),
-                _buildMemoField(context),
+                _buildMemoField(context, memoController),
                 SizedBox(height: 19.h),
                 _buildPhotoUploadSection(context),
                 SizedBox(height: 19.h),
@@ -127,7 +137,10 @@ Widget _buildDialogHeader(BuildContext context) {
 }
 
 //MARK: 장소 이름, 입력
-Widget _buildStoreNameField(BuildContext context) {
+Widget _buildPlaceNameField(
+  BuildContext context,
+  TextEditingController placeNameController,
+) {
   return Padding(
     padding: EdgeInsetsDirectional.fromSTEB(24.w, 0, 25.w, 0),
     child: Column(
@@ -146,6 +159,7 @@ Widget _buildStoreNameField(BuildContext context) {
         ),
         SizedBox(height: 8.h),
         TextFormField(
+          controller: placeNameController,
           // 입력하는 텍스트 스타일
           style: TextStyle(
             color: AppColors.midiumText,
@@ -184,7 +198,11 @@ Widget _buildStoreNameField(BuildContext context) {
   );
 }
 
-Widget _buildMemoField(BuildContext context) {
+//MARK:메모 (선택사항)
+Widget _buildMemoField(
+  BuildContext context,
+  TextEditingController memoController,
+) {
   return Padding(
     padding: EdgeInsetsDirectional.fromSTEB(24.w, 0, 25.w, 0),
     child: Column(
@@ -203,6 +221,8 @@ Widget _buildMemoField(BuildContext context) {
         ),
         SizedBox(height: 8.h),
         TextFormField(
+          controller: memoController,
+          maxLength: 100,
           maxLines: 2,
           // 입력하는 텍스트 스타일
           style: TextStyle(
@@ -215,6 +235,7 @@ Widget _buildMemoField(BuildContext context) {
           cursorHeight: 20.0.h,
           decoration: InputDecoration(
             hintText: "장소 이름을 입력하세요",
+            counterText: "",
             hintStyle: TextStyle(
               color: AppColors.forestGreen,
               fontFamily: "Pretendard",
@@ -238,22 +259,28 @@ Widget _buildMemoField(BuildContext context) {
           ),
         ),
         SizedBox(height: 8.h),
-        Text(
-          "0/200자",
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-            color: Color(0xFF6B8166),
-            fontFamily: "Pretendard",
-            fontSize: 12.sp,
-            fontWeight: FontWeight.w700,
-          ),
+        ValueListenableBuilder<TextEditingValue>(
+          valueListenable: memoController,
+          builder: (context, value, _) {
+            return Text(
+              "${value.text.length}/100자",
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: Color(0xFF6B8166),
+                fontFamily: "Pretendard",
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w700,
+              ),
+            );
+          },
         ),
       ],
     ),
   );
 }
 
+//MARK: 사진 (선택사항)
 Widget _buildPhotoUploadSection(BuildContext context) {
   return Padding(
     padding: EdgeInsetsDirectional.fromSTEB(24.w, 0, 24.w, 0),
@@ -317,6 +344,7 @@ Widget _buildPhotoUploadSection(BuildContext context) {
   );
 }
 
+//MARK: 저장, 취소
 Widget _buildActionButtons(BuildContext context) {
   return Padding(
     padding: EdgeInsetsDirectional.fromSTEB(24.w, 0, 24.w, 0),
