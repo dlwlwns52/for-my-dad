@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fms/UIApplication/save_currentlocation.dart';
+import 'package:fms/save_location/save_currentlocation_view.dart';
 import 'package:fms/constants/app_colors.dart';
 import 'package:flutter/services.dart'; // 햅틱용
 
@@ -142,7 +142,7 @@ Widget _saveCurrentLocation(BuildContext context) {
           HapticFeedback.mediumImpact();
           showDialog(
             context: context,
-            builder: (context) => SaveCurrentLocation(),
+            builder: (context) => SaveCurrentLocationView(),
           );
         },
         child: Container(
