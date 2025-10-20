@@ -359,6 +359,122 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
     );
   }
 
+  void showImageSourceBottomSheet(BuildContext context) {
+    final primaryColor = const Color(0xFF183317); // 앱 메인 컬러
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Color(0xFFF7FDF5),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+      ),
+      builder: (context) {
+        // final viewModel = context.read<SaveCurrentLocationViewModel>();
+
+        return SafeArea(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(33.w, 24.h, 33.w, 0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  '사진 추가',
+                  style: TextStyle(
+                    color: Color(0xFB183317),
+                    fontFamily: "Pretendard",
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                SizedBox(height: 27.h),
+
+                // 사진 촬영
+                SizedBox(
+                  width: double.infinity,
+                  height: 60.h,
+                  child: ElevatedButton.icon(
+                    onPressed: () async {
+                      Navigator.pop(context);
+                      // await viewModel.pickImage(ImageSource.camera);
+                    },
+                    icon: const Icon(Icons.camera_alt, size: 24),
+                    label: Text(
+                      '사진 촬영',
+                      style: TextStyle(
+                        color: Color(0xFFFFFFFF),
+                        fontFamily: "Pretendard",
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.forestGreen,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      elevation: 3,
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 27.h),
+
+                // 앨범에서 선택
+                SizedBox(
+                  width: double.infinity,
+                  height: 60.h,
+                  child: OutlinedButton.icon(
+                    onPressed: () async {
+                      Navigator.pop(context);
+                      // await viewModel.pickImage(ImageSource.gallery);
+                    },
+                    icon: Icon(
+                      Icons.photo_library,
+                      color: primaryColor,
+                      size: 24,
+                    ),
+                    label: Text(
+                      '앨범에서 선택',
+                      style: TextStyle(
+                        color: Color(0xFB183317),
+                        fontFamily: "Pretendard",
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    style: OutlinedButton.styleFrom(
+                      side: BorderSide(color: primaryColor, width: 2),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 27.h),
+
+                // 취소 버튼
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(
+                    '취소',
+                    style: TextStyle(
+                      color: Color(0xFF647A60),
+                      fontFamily: "Pretendard",
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   //MARK: 저장, 취소
   Widget _buildActionButtons(BuildContext context) {
     return Padding(
@@ -413,6 +529,7 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
               ),
             ),
           ),
+          SizedBox(height: 15.h),
         ],
       ),
     );
