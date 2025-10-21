@@ -303,12 +303,16 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
           GestureDetector(
             onTap: () {
               HapticFeedback.mediumImpact();
-              context.read<SaveCurrentLocationViewModel>().pickImage();
+              showImageSourceBottomSheet(context);
             },
             child: Consumer<SaveCurrentLocationViewModel>(
               builder: (context, vm, _) {
                 if (vm.selectedImage != null) {
-                  return Image.file(vm.selectedImage!, width: 100, height: 100);
+                  return Image.file(
+                    vm.selectedImage!,
+                    width: double.infinity,
+                    height: 130.h,
+                  );
                 } else {
                   return DottedBorder(
                     options: RoundedRectDottedBorderOptions(
@@ -361,16 +365,15 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
 
   void showImageSourceBottomSheet(BuildContext context) {
     final primaryColor = const Color(0xFF183317); // 앱 메인 컬러
-
+    final viewModel = context.read<SaveCurrentLocationViewModel>();
     showModalBottomSheet(
       context: context,
       backgroundColor: Color(0xFFF7FDF5),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
       ),
-      builder: (context) {
-        // final viewModel = context.read<SaveCurrentLocationViewModel>();
 
+      builder: (context) {
         return SafeArea(
           child: Padding(
             padding: EdgeInsets.fromLTRB(33.w, 24.h, 33.w, 0),
@@ -392,28 +395,42 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
                 SizedBox(
                   width: double.infinity,
                   height: 60.h,
-                  child: ElevatedButton.icon(
+                  child: ElevatedButton(
                     onPressed: () async {
+                      HapticFeedback.mediumImpact();
                       Navigator.pop(context);
-                      // await viewModel.pickImage(ImageSource.camera);
+                      await viewModel.pickCamera();
                     },
-                    icon: const Icon(Icons.camera_alt, size: 24),
-                    label: Text(
-                      '사진 촬영',
-                      style: TextStyle(
-                        color: Color(0xFFFFFFFF),
-                        fontFamily: "Pretendard",
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.forestGreen,
+                      backgroundColor: Color(0xFF275025),
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      elevation: 3,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          'assets/icon/camera.svg',
+                          width: 24.w,
+                          height: 24.w,
+                          colorFilter: const ColorFilter.mode(
+                            Colors.white,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                        SizedBox(width: 12.w),
+                        Text(
+                          '사진 촬영',
+                          style: TextStyle(
+                            color: Color(0xFFFFFFFF),
+                            fontFamily: "Pretendard",
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -426,8 +443,10 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
                   height: 60.h,
                   child: OutlinedButton.icon(
                     onPressed: () async {
+                      HapticFeedback.mediumImpact();
                       Navigator.pop(context);
-                      // await viewModel.pickImage(ImageSource.gallery);
+                      await viewModel.pickImage();
+                      return;
                     },
                     icon: Icon(
                       Icons.photo_library,
@@ -451,12 +470,13 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
                     ),
                   ),
                 ),
-
                 SizedBox(height: 27.h),
-
                 // 취소 버튼
                 TextButton(
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () {
+                    HapticFeedback.mediumImpact();
+                    Navigator.pop(context);
+                  },
                   child: Text(
                     '취소',
                     style: TextStyle(
