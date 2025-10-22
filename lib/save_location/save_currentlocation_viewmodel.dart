@@ -5,10 +5,20 @@ import 'package:geolocator/geolocator.dart';
 
 class SaveCurrentLocationViewModel extends ChangeNotifier {
   File? selectedImage;
+  List<File> selectedImages = [];
 
-  Future<void> pickImage() async {
+  Future<void> pickImages() async {
     final picker = ImagePicker();
-    final picked = await picker.pickImage(source: ImageSource.gallery);
+    final pickedFiles = await picker.pickMultiImage();
+    if (pickedFiles.isNotEmpty) {
+      selectedImages = pickedFiles.map((x) => File(x.path)).toList();
+      notifyListeners();
+    }
+  }
+
+  Future<void> pickCamera() async {
+    final picker = ImagePicker();
+    final picked = await picker.pickImage(source: ImageSource.camera);
     if (picked != null) {
       selectedImage = File(picked.path);
       notifyListeners();
