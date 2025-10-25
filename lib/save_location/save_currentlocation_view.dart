@@ -314,25 +314,104 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
                     height: 130.h,
                   );
                 } else if (vm.selectedImages.isNotEmpty) {
-                  return SizedBox(
-                    height: 100.h,
-                    width: double.infinity,
-                    child: GridView.builder(
-                      padding: const EdgeInsets.all(8),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 8,
-                            mainAxisSpacing: 8,
+                  return Column(
+                    children: [
+                      SizedBox(
+                        height: 200.h,
+                        width: double.infinity,
+                        child: GridView.builder(
+                          padding: const EdgeInsets.all(8),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2, // 한 줄에 2장씩
+                                crossAxisSpacing: 8,
+                                mainAxisSpacing: 8,
+                              ),
+                          itemCount: vm.selectedImages.length,
+                          itemBuilder: (context, index) {
+                            return Stack(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(13),
+                                  child: Image.file(
+                                    vm.selectedImages[index],
+                                    fit: BoxFit.cover,
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                  ),
+                                ),
+                                // 삭제 버튼 (우측 상단 X)
+                                Positioned(
+                                  right: 4,
+                                  top: 4,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      HapticFeedback.mediumImpact();
+                                      vm.removeImageAt(index);
+                                    },
+                                    child: Container(
+                                      decoration: const BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(8),
+                                        ),
+                                        color: Color(0xFFD4183D),
+                                      ),
+                                      padding: const EdgeInsets.all(4),
+                                      child: const Icon(
+                                        Icons.close,
+                                        color: Colors.white,
+                                        size: 16,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                      SizedBox(height: 10.h),
+                      DottedBorder(
+                        options: RoundedRectDottedBorderOptions(
+                          color: Color(0xFFD6E2D4),
+                          radius: Radius.circular(12),
+                          dashPattern: [6, 5], //실선 길이, 공백 길이
+                          strokeWidth: 3,
+                        ),
+                        child: Container(
+                          width: double.infinity,
+                          height: 100.h, // 필요 시 고정 높이
+                          color: const Color(0xFFF4FAF1), // 연한 초록 배경
+                          alignment: Alignment.center,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              SvgPicture.asset(
+                                'assets/icon/camera.svg',
+                                width: 35.w,
+                                height: 35.w,
+                                colorFilter: const ColorFilter.mode(
+                                  Color(0xFF6B8166),
+                                  BlendMode.srcIn,
+                                ),
+                              ),
+                              SizedBox(height: 8),
+                              Text(
+                                "사진을 추가하려면 클릭하세요",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: Color(0xFF6B8166),
+                                  fontFamily: "Pretendard",
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ],
                           ),
-                      itemCount: vm.selectedImages.length,
-                      itemBuilder: (context, index) {
-                        return Image.file(
-                          vm.selectedImages[index],
-                          fit: BoxFit.cover,
-                        );
-                      },
-                    ),
+                        ),
+                      ),
+                    ],
                   );
                 } else {
                   return DottedBorder(
@@ -384,6 +463,7 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
     );
   }
 
+  //MARK: 사진 촬영' 및 '앨범에서 선택' 옵션을 제공하는 바텀시트
   void showImageSourceBottomSheet(BuildContext context) {
     final primaryColor = const Color(0xFF183317); // 앱 메인 컬러
     final viewModel = context.read<SaveCurrentLocationViewModel>();

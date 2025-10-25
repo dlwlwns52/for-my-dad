@@ -33,6 +33,9 @@ Future<void> _getCurrentPosition() async {
     // GPS 자체가 꺼져 있음
     print("위치 서비스가 꺼져 있습니다.");
     return;
+  void removeImageAt(int index) {
+    selectedImages.removeAt(index);
+    notifyListeners();
   }
 
   LocationPermission permission = await Geolocator.checkPermission();
