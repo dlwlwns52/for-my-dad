@@ -142,6 +142,7 @@ Widget _saveCurrentLocation(BuildContext context) {
           HapticFeedback.mediumImpact();
           showDialog(
             context: context,
+            barrierDismissible: false,
             builder: (context) => SaveCurrentLocationView(),
           );
         },
