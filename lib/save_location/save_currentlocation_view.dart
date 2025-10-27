@@ -260,7 +260,7 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
             ),
           ),
           SizedBox(height: 8.h),
-          ValueListenableBuilder<TextEditingValue>(
+          ValueListenableBuilder(
             valueListenable: memoController,
             builder: (context, value, _) {
               return Text(
@@ -300,78 +300,78 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
             ),
           ),
           SizedBox(height: 8.h),
-          GestureDetector(
-            onTap: () {
-              HapticFeedback.mediumImpact();
-              showImageSourceBottomSheet(context);
-            },
-            child: Consumer<SaveCurrentLocationViewModel>(
-              builder: (context, vm, _) {
-                if (vm.selectedImage != null) {
-                  return Image.file(
-                    vm.selectedImage!,
-                    width: double.infinity,
-                    height: 130.h,
-                  );
-                } else if (vm.selectedImages.isNotEmpty) {
-                  return Column(
-                    children: [
-                      SizedBox(
-                        height: 200.h,
-                        width: double.infinity,
-                        child: GridView.builder(
-                          padding: const EdgeInsets.all(8),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2, // 한 줄에 2장씩
-                                crossAxisSpacing: 8,
-                                mainAxisSpacing: 8,
+          Consumer<SaveCurrentLocationViewModel>(
+            builder: (context, vm, _) {
+              if (vm.selectedImage != null) {
+                return Image.file(
+                  vm.selectedImage!,
+                  width: double.infinity,
+                  height: 130.h,
+                );
+              } else if (vm.selectedImages.isNotEmpty) {
+                return Column(
+                  children: [
+                    GridView.builder(
+                      shrinkWrap: true, // 내용 높이에 맞게 자동 확장
+                      physics: const NeverScrollableScrollPhysics(), // 스크롤 막기
+                      padding: const EdgeInsets.all(8),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2, // 한 줄에 2장씩
+                            crossAxisSpacing: 8,
+                            mainAxisSpacing: 8,
+                          ),
+                      itemCount: vm.selectedImages.length,
+                      itemBuilder: (context, index) {
+                        return Stack(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(13),
+                              child: Image.file(
+                                vm.selectedImages[index],
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                                height: double.infinity,
                               ),
-                          itemCount: vm.selectedImages.length,
-                          itemBuilder: (context, index) {
-                            return Stack(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(13),
-                                  child: Image.file(
-                                    vm.selectedImages[index],
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
-                                    height: double.infinity,
-                                  ),
-                                ),
-                                // 삭제 버튼 (우측 상단 X)
-                                Positioned(
-                                  right: 4,
-                                  top: 4,
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      HapticFeedback.mediumImpact();
-                                      vm.removeImageAt(index);
-                                    },
-                                    child: Container(
-                                      decoration: const BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(8),
-                                        ),
-                                        color: Color(0xFFD4183D),
-                                      ),
-                                      padding: const EdgeInsets.all(4),
-                                      child: const Icon(
-                                        Icons.close,
-                                        color: Colors.white,
-                                        size: 16,
-                                      ),
+                            ),
+
+                            // 삭제 버튼 (우측 상단 X)
+                            Positioned(
+                              right: 4,
+                              top: 4,
+                              child: GestureDetector(
+                                onTap: () {
+                                  HapticFeedback.mediumImpact();
+                                  vm.removeImageAt(index);
+                                },
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(8),
                                     ),
+                                    color: Color(0xFFD4183D),
+                                  ),
+                                  padding: const EdgeInsets.all(4),
+                                  child: const Icon(
+                                    Icons.close,
+                                    color: Colors.white,
+                                    size: 16,
                                   ),
                                 ),
-                              ],
-                            );
-                          },
-                        ),
-                      ),
-                      SizedBox(height: 10.h),
-                      DottedBorder(
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+
+                    SizedBox(height: 10.h),
+                    GestureDetector(
+                      onTap: () {
+                        HapticFeedback.mediumImpact();
+                        showImageSourceBottomSheet(context);
+                      },
+                      child: DottedBorder(
                         options: RoundedRectDottedBorderOptions(
                           color: Color(0xFFD6E2D4),
                           radius: Radius.circular(12),
@@ -411,10 +411,16 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
                           ),
                         ),
                       ),
-                    ],
-                  );
-                } else {
-                  return DottedBorder(
+                    ),
+                  ],
+                );
+              } else {
+                return GestureDetector(
+                  onTap: () {
+                    HapticFeedback.mediumImpact();
+                    showImageSourceBottomSheet(context);
+                  },
+                  child: DottedBorder(
                     options: RoundedRectDottedBorderOptions(
                       color: Color(0xFFD6E2D4),
                       radius: Radius.circular(12),
@@ -453,10 +459,10 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
                         ],
                       ),
                     ),
-                  );
-                }
-              },
-            ),
+                  ),
+                );
+              }
+            },
           ),
         ],
       ),
