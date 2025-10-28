@@ -130,7 +130,6 @@ Widget _statCard() {
 }
 
 //MARK: 현재 위치 저장하기
-
 Widget _saveCurrentLocation(BuildContext context) {
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: 26.w),
@@ -142,8 +141,8 @@ Widget _saveCurrentLocation(BuildContext context) {
           HapticFeedback.mediumImpact();
           showDialog(
             context: context,
-            barrierDismissible: false,
-            builder: (context) => SaveCurrentLocationView(),
+            barrierDismissible: false, // 외부 터치로 닫히지 않게 함
+            builder: (_) => SaveCurrentLocationView(rootContext: context),
           );
         },
         child: Container(

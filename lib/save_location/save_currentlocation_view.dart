@@ -9,7 +9,8 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:provider/provider.dart';
 
 class SaveCurrentLocationView extends StatefulWidget {
-  const SaveCurrentLocationView({super.key});
+  final BuildContext rootContext;
+  const SaveCurrentLocationView({super.key, required this.rootContext});
 
   @override
   State<SaveCurrentLocationView> createState() => _SaveCurrentLocationState();
@@ -28,6 +29,7 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
 
   @override
   Widget build(BuildContext context) {
+    final rootContext = widget.rootContext;
     return ChangeNotifierProvider(
       create: (_) => SaveCurrentLocationViewModel(),
       builder: (context, _) {
@@ -55,7 +57,7 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
                     SizedBox(height: 19.h),
                     _buildPhotoUploadSection(context),
                     SizedBox(height: 19.h),
-                    _buildActionButtons(context),
+                    _buildActionButtons(rootContext),
                   ],
                 ),
               ),
