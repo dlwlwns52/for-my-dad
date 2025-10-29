@@ -142,7 +142,7 @@ Widget _saveCurrentLocation(BuildContext context) {
           showDialog(
             context: context,
             barrierDismissible: false, // 외부 터치로 닫히지 않게 함
-            builder: (_) => SaveCurrentLocationView(rootContext: context),
+            builder: (_) => SaveCurrentLocationView(),
           );
         },
         child: Container(

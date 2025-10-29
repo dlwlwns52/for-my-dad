@@ -9,8 +9,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:provider/provider.dart';
 
 class SaveCurrentLocationView extends StatefulWidget {
-  final BuildContext rootContext;
-  const SaveCurrentLocationView({super.key, required this.rootContext});
+  const SaveCurrentLocationView({super.key});
 
   @override
   State<SaveCurrentLocationView> createState() => _SaveCurrentLocationState();
@@ -29,36 +28,47 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
 
   @override
   Widget build(BuildContext context) {
-    final rootContext = widget.rootContext;
     return ChangeNotifierProvider(
       create: (_) => SaveCurrentLocationViewModel(),
       builder: (context, _) {
-        return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          insetPadding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 11.w),
-          backgroundColor: const Color(0xFFF8FDF6),
-
-          child: GestureDetector(
-            behavior: HitTestBehavior.translucent,
-            onTap: () => FocusScope.of(context).unfocus(),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 373.w, maxHeight: 615.h),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildDialogHeader(context),
-                    SizedBox(height: 25.h),
-                    _buildPlaceNameField(context, placeNameController),
-                    SizedBox(height: 16.h),
-                    _buildMemoField(context, memoController),
-                    SizedBox(height: 19.h),
-                    _buildPhotoUploadSection(context),
-                    SizedBox(height: 19.h),
-                    _buildActionButtons(rootContext),
-                  ],
+        return ScaffoldMessenger(
+          child: Builder(
+            builder: (context) => Scaffold(
+              backgroundColor: Colors.transparent, // 투명하게 유지
+              body: Dialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                insetPadding: EdgeInsets.symmetric(
+                  vertical: 10.h,
+                  horizontal: 11.w,
+                ),
+                backgroundColor: const Color(0xFFF8FDF6),
+                child: GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () => FocusScope.of(context).unfocus(),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxWidth: 373.w,
+                      maxHeight: 615.h,
+                    ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildDialogHeader(context),
+                          SizedBox(height: 25.h),
+                          _buildPlaceNameField(context, placeNameController),
+                          SizedBox(height: 16.h),
+                          _buildMemoField(context, memoController),
+                          SizedBox(height: 19.h),
+                          _buildPhotoUploadSection(context),
+                          SizedBox(height: 19.h),
+                          _buildActionButtons(context),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
