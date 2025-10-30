@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fms/Module/snackBar.dart';
 import 'package:fms/save_location/save_currentlocation_viewmodel.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -620,53 +621,65 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
       padding: EdgeInsetsDirectional.fromSTEB(24.w, 0, 24.w, 0),
       child: Column(
         children: [
-          GestureDetector(
-            onTap: () {},
-            child: Container(
-              width: double.infinity,
-              height: 30.h,
-              // color: AppColors.forestGreen,
-              decoration: BoxDecoration(
-                color: AppColors.forestGreen,
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: Center(
-                child: Text(
-                  "저장",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: "Pretendard",
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w700,
-                  ),
+          Container(
+            width: double.infinity,
+            height: 30.h,
+            // color: AppColors.forestGreen,
+            decoration: BoxDecoration(
+              color: AppColors.forestGreen,
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: Center(
+              child: Text(
+                "저장",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: "Pretendard",
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
             ),
           ),
           SizedBox(height: 15.h),
-          GestureDetector(
-            onTap: () {},
-            child: Container(
-              width: double.infinity,
-              height: 30.h,
-              // color: AppColors.forestGreen,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(5),
-                border: Border.all(color: Color(0xFFE7F0E6), width: 1),
-              ),
-              child: Center(
-                child: Text(
-                  "취소",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: "Pretendard",
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w700,
+          ValueListenableBuilder(
+            valueListenable: placeNameController,
+            builder: (BuildContext context, dynamic value, _) {
+              final isEmpty = value.text.trim().isEmpty;
+              return GestureDetector(
+                onTap: () {
+                  if (!isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      customSnackBar("한 번 더 취소를 누르면 입력한 내용이 사라집니다."),
+                    );
+                  } else {
+                    HapticFeedback.mediumImpact();
+                    Navigator.pop(context);
+                  }
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: 30.h,
+                  // color: AppColors.forestGreen,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: Color(0xFFE7F0E6), width: 1),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "취소",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: "Pretendard",
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
+              );
+            },
           ),
           SizedBox(height: 15.h),
         ],
