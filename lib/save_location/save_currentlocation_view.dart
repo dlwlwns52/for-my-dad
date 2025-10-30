@@ -646,12 +646,17 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
             valueListenable: placeNameController,
             builder: (BuildContext context, dynamic value, _) {
               final isEmpty = value.text.trim().isEmpty;
+              bool isCancelClicked = false;
               return GestureDetector(
                 onTap: () {
                   if (!isEmpty) {
+                    if (isCancelClicked) {
+                      Navigator.pop(context);
+                    }
                     ScaffoldMessenger.of(context).showSnackBar(
                       customSnackBar("한 번 더 취소를 누르면 입력한 내용이 사라집니다."),
                     );
+                    isCancelClicked = true;
                   } else {
                     HapticFeedback.mediumImpact();
                     Navigator.pop(context);
