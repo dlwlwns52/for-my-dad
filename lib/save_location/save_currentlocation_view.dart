@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fms/Module/snackBar.dart';
 import 'package:fms/save_location/save_currentlocation_viewmodel.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fms/constants/app_colors.dart';
@@ -315,13 +314,7 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
           SizedBox(height: 8.h),
           Consumer<SaveCurrentLocationViewModel>(
             builder: (context, vm, _) {
-              if (vm.selectedImage != null) {
-                return Image.file(
-                  vm.selectedImage!,
-                  width: double.infinity,
-                  height: 130.h,
-                );
-              } else if (vm.selectedImages.isNotEmpty) {
+              if (vm.selectedImages.isNotEmpty) {
                 return Column(
                   children: [
                     GridView.builder(
@@ -651,8 +644,10 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
                 onTap: () {
                   if (!isEmpty) {
                     if (isCancelClicked) {
+                      HapticFeedback.mediumImpact();
                       Navigator.pop(context);
                     }
+                    HapticFeedback.mediumImpact();
                     ScaffoldMessenger.of(context).showSnackBar(
                       customSnackBar("한 번 더 취소를 누르면 입력한 내용이 사라집니다."),
                     );
