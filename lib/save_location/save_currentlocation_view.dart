@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fms/Module/snackBar.dart';
+import 'package:fms/Module/utils/snack_bar.dart';
 import 'package:fms/save_location/save_currentlocation_viewmodel.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
