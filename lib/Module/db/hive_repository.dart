@@ -2,9 +2,11 @@ import 'package:hive/hive.dart';
 import './hive_model.dart';
 
 class SpotRepository {
+  //싱글톤 객체
   static final SpotRepository _instance = SpotRepository._internal();
   factory SpotRepository() => _instance;
   SpotRepository._internal();
+
   static const String _boxName = 'spotBox';
   Box<Spot>? _box;
 
@@ -27,7 +29,7 @@ class SpotRepository {
     await b.add(spot);
   }
 
-  /// 특정 Spot 수정
+  // 특정 Spot 수정
   Future<void> updateSpot(int index, Spot updatedSpot) async {
     final b = await box;
     await b.putAt(index, updatedSpot);
