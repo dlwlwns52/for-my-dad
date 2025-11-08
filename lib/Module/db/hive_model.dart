@@ -11,7 +11,19 @@ class Spot {
   String? memo;
 
   @HiveField(2)
-  String? imagePath;
+  List<String>? imagePath;
 
-  Spot({required this.placeName, required this.memo, required this.imagePath});
+  @HiveField(3)
+  double latitude; // 위도
+
+  @HiveField(4)
+  double longitude; // 경도
+
+  Spot({
+    required this.placeName,
+    required this.memo,
+    required this.imagePath,
+    required this.latitude,
+    required this.longitude,
+  });
 }

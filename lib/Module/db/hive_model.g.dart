@@ -19,20 +19,26 @@ class SpotAdapter extends TypeAdapter<Spot> {
     return Spot(
       placeName: fields[0] as String,
       memo: fields[1] as String?,
-      imagePath: fields[2] as String?,
+      imagePath: (fields[2] as List?)?.cast<String>(),
+      latitude: fields[3] as double,
+      longitude: fields[4] as double,
     );
   }
 
   @override
   void write(BinaryWriter writer, Spot obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.placeName)
       ..writeByte(1)
       ..write(obj.memo)
       ..writeByte(2)
-      ..write(obj.imagePath);
+      ..write(obj.imagePath)
+      ..writeByte(3)
+      ..write(obj.latitude)
+      ..writeByte(4)
+      ..write(obj.longitude);
   }
 
   @override
