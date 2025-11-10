@@ -19,6 +19,9 @@ class Spot {
   @HiveField(4)
   double longitude; // 경도
 
+  @HiveField(5)
+  DateTime createdAt = DateTime.now();
+
   Spot({
     required this.placeName,
     required this.memo,

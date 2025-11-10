@@ -22,13 +22,13 @@ class SpotAdapter extends TypeAdapter<Spot> {
       imagePath: (fields[2] as List?)?.cast<String>(),
       latitude: fields[3] as double,
       longitude: fields[4] as double,
-    );
+    )..createdAt = fields[5] as DateTime;
   }
 
   @override
   void write(BinaryWriter writer, Spot obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.placeName)
       ..writeByte(1)
@@ -38,7 +38,9 @@ class SpotAdapter extends TypeAdapter<Spot> {
       ..writeByte(3)
       ..write(obj.latitude)
       ..writeByte(4)
-      ..write(obj.longitude);
+      ..write(obj.longitude)
+      ..writeByte(5)
+      ..write(obj.createdAt);
   }
 
   @override
