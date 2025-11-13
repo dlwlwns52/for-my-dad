@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fms/Module/db/hive_Service.dart';
+import 'package:fms/UIApplication/main_screen.dart';
 import 'package:fms/constants/app_colors.dart';
 import 'package:fms/store_location/store_location_viewmodel.dart';
 import 'package:provider/provider.dart';
@@ -63,14 +65,89 @@ class SavedPlacesView extends StatelessWidget {
                   ),
                 );
               }
-              // if (vm.spots.isEmpty) {
-              return RefreshIndicator(
-                onRefresh: vm.loadSpots,
-                child: ListView(
-                  children: const [
-                    SizedBox(height: 160),
-                    Center(child: Text('저장된 장소가 없습니다.')),
-                  ],
+              if (vm.spots.isEmpty) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.location_on,
+                        size: 70.w,
+                        color: Color(0xFF6B8166),
+                      ),
+                      SizedBox(height: 20),
+                      Text(
+                        "저장된 장소가 없습니다",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.midiumText,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        "첫 번째 비밀 장소를 저장해보세요!",
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Color(0xFF6B8166),
+                        ),
+                      ),
+                      SizedBox(height: 30),
+                      InkWell(
+                        borderRadius: BorderRadius.circular(
+                          15,
+                        ), // ripple도 radius 맞춰야 자연스러움
+                        onTap: () {
+                          HapticFeedback.mediumImpact();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MainScreen(),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          constraints: BoxConstraints(
+                            minHeight: 50.h,
+                            maxWidth: 200.w,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.forestGreen,
+                            borderRadius: BorderRadius.circular(15),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.25),
+                                offset: Offset(0, 2),
+                                blurRadius: 4,
+                                spreadRadius: 0,
+                              ),
+                            ],
+                          ),
+                          child: Center(
+                            child: Text(
+                              "위치 저장하러 가기",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: "Pretendard",
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 200.h),
+                    ],
+                  ),
+                );
+              }
+
+              // }
+              return Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 18,
                 ),
               );
               // }
