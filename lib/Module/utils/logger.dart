@@ -7,7 +7,7 @@ void logDebug(String message, {String name = 'App'}) {
   }
 }
 
-void printDebug(String message) {
+void printDebug(String? message) {
   if (kDebugMode) {
     print(message);
   }
