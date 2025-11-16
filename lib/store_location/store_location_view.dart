@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fms/Module/db/hive_Service.dart';
+import 'package:fms/Module/utils/logger.dart';
 import 'package:fms/UIApplication/main_screen.dart';
 import 'package:fms/constants/app_colors.dart';
 import 'package:fms/store_location/store_location_viewmodel.dart';
@@ -40,28 +41,69 @@ class SavedPlacesView extends StatelessWidget {
             builder: (context, vm, _) {
               if (vm.isLoading) {
                 return Center(
-                  child: CircularProgressIndicator(),
-                ); //로딩중일때 TODO: 추후에 디자인 적용
+                  child: CircularProgressIndicator(color: AppColors.midiumText),
+                );
               }
               if (vm.error != null) {
-                //에러발생시 TODO: 추후에 디자인 적용
+                printDebug(vm.error);
                 return Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          '불러오기 실패\n${vm.error}',
-                          textAlign: TextAlign.center,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.error_outline_rounded,
+                        size: 70.w,
+                        color: Color(0xFF6B8166),
+                      ),
+                      SizedBox(height: 20),
+                      Text(
+                        "불러오기 실패하였습니다.",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.midiumText,
                         ),
-                        const SizedBox(height: 12),
-                        ElevatedButton(
-                          onPressed: vm.loadSpots,
-                          child: const Text('다시 시도'),
+                      ),
+                      SizedBox(height: 30),
+                      InkWell(
+                        borderRadius: BorderRadius.circular(15),
+                        onTap: () {
+                          HapticFeedback.mediumImpact();
+                          vm.loadSpots;
+                        },
+                        child: Container(
+                          constraints: BoxConstraints(
+                            minHeight: 50.h,
+                            maxWidth: 200.w,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.forestGreen,
+                            borderRadius: BorderRadius.circular(15),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.25),
+                                offset: Offset(0, 2),
+                                blurRadius: 4,
+                                spreadRadius: 0,
+                              ),
+                            ],
+                          ),
+                          child: Center(
+                            child: Text(
+                              "다시 시도하기",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: "Pretendard",
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
                         ),
-                      ],
-                    ),
+                      ),
+                      SizedBox(height: 200.h),
+                    ],
                   ),
                 );
               }
@@ -150,13 +192,6 @@ class SavedPlacesView extends StatelessWidget {
                   vertical: 18,
                 ),
               );
-              // }
-              // return Padding(
-              //   padding: const EdgeInsets.symmetric(
-              //     horizontal: 16,
-              //     vertical: 18,
-              //   ),
-              // );
             },
           ),
         );
@@ -164,26 +199,26 @@ class SavedPlacesView extends StatelessWidget {
     );
   }
 
-  Widget _iconButton({
-    required IconData icon,
-    required Color borderColor,
-    required Color iconColor,
-    required VoidCallback onPressed,
-  }) {
-    return Container(
-      width: 36,
-      height: 36,
-      decoration: BoxDecoration(
-        border: Border.all(color: borderColor, width: 1.0),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: IconButton(
-        padding: EdgeInsets.zero,
-        icon: Icon(icon, color: iconColor, size: 20),
-        onPressed: onPressed,
-      ),
-    );
-  }
+  //   Widget _iconButton({
+  //     required IconData icon,
+  //     required Color borderColor,
+  //     required Color iconColor,
+  //     required VoidCallback onPressed,
+  //   }) {
+  //     return Container(
+  //       width: 36,
+  //       height: 36,
+  //       decoration: BoxDecoration(
+  //         border: Border.all(color: borderColor, width: 1.0),
+  //         borderRadius: BorderRadius.circular(8),
+  //       ),
+  //       child: IconButton(
+  //         padding: EdgeInsets.zero,
+  //         icon: Icon(icon, color: iconColor, size: 20),
+  //         onPressed: onPressed,
+  //       ),
+  //     );
+  //   }
 }
 
 
