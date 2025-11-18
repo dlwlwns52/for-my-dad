@@ -614,25 +614,80 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
       padding: EdgeInsetsDirectional.fromSTEB(24.w, 0, 24.w, 0),
       child: Column(
         children: [
-          Container(
-            width: double.infinity,
-            height: 30.h,
-            // color: AppColors.forestGreen,
-            decoration: BoxDecoration(
-              color: AppColors.forestGreen,
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: Center(
-              child: Text(
-                "저장",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: "Pretendard",
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
+          Consumer<SaveCurrentLocationViewModel>(
+            builder: (context, vm, _) {
+              return ValueListenableBuilder(
+                valueListenable: placeNameController,
+                builder: (BuildContext context, dynamic value, __) {
+                  final isEmpty = value.text.trim().isEmpty;
+                  final isDisabled = isEmpty || vm.isSaving;
+                  return GestureDetector(
+                    onTap: isDisabled
+                        ? null
+                        : () async {
+                            FocusScope.of(context).unfocus();
+                            HapticFeedback.mediumImpact();
+                            try {
+                              await vm.saveCurrentSpot(
+                                placeName: placeNameController.text,
+                                memo: memoController.text,
+                              );
+                              placeNameController.clear();
+                              memoController.clear();
+                              if (!mounted) return;
+                              ScaffoldMessenger.of(
+                                context,
+                              ).showSnackBar(customSnackBar("현재 위치를 저장했어요."));
+                              Navigator.pop(context);
+                            } catch (e) {
+                              if (!mounted) return;
+                              final message =
+                                  e.toString().replaceFirst(
+                                    "Exception: ",
+                                    "",
+                                  ) ??
+                                  "저장 중 오류가 발생했어요.";
+                              ScaffoldMessenger.of(
+                                context,
+                              ).showSnackBar(customSnackBar(message));
+                            }
+                          },
+                    child: Container(
+                      width: double.infinity,
+                      height: 30.h,
+                      decoration: BoxDecoration(
+                        color: isDisabled
+                            ? AppColors.forestGreen.withOpacity(0.4)
+                            : AppColors.forestGreen,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: Center(
+                        child: vm.isSaving
+                            ? SizedBox(
+                                width: 18.w,
+                                height: 18.w,
+                                child: const CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    Colors.white,
+                                  ),
+                                ),
+                              )
+                            : Text(
+                                "저장",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: "Pretendard",
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
           ),
           SizedBox(height: 15.h),
           ValueListenableBuilder(
@@ -642,6 +697,9 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
               bool isCancelClicked = false;
               return GestureDetector(
                 onTap: () {
+                  if (context.read<SaveCurrentLocationViewModel>().isSaving) {
+                    return;
+                  }
                   if (!isEmpty) {
                     if (isCancelClicked) {
                       HapticFeedback.mediumImpact();
