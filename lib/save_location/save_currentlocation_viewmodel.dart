@@ -2,16 +2,17 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:fms/Module/db/hive_Service.dart';
 import 'package:fms/Module/db/hive_model.dart';
+import 'package:fms/Module/utils/logger.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 
 class SaveCurrentLocationViewModel extends ChangeNotifier {
-  final SpotService _spotService = SpotService();
-
-  File? selectedImage;
   List<File> selectedImages = [];
+  final SpotService _spotService;
+  SaveCurrentLocationViewModel(this._spotService);
   bool isSaving = false;
 
+  //MARK: 이미지들 저장
   Future<void> pickImages() async {
     final picker = ImagePicker();
     final pickedFiles = await picker.pickMultiImage();
@@ -21,6 +22,7 @@ class SaveCurrentLocationViewModel extends ChangeNotifier {
     }
   }
 
+  //MARK: 카메라로 찍은 이미지 저장
   Future<void> pickCamera() async {
     final picker = ImagePicker();
     final picked = await picker.pickImage(source: ImageSource.camera);
@@ -30,31 +32,37 @@ class SaveCurrentLocationViewModel extends ChangeNotifier {
     }
   }
 
+  //MARK: 이미지 삭제(사용자가 X 누를때 사용)
   void removeImageAt(int index) {
     selectedImages.removeAt(index);
     notifyListeners();
   }
 
+  //MARK: 현재 정보 저장
   Future<void> saveCurrentSpot({
     required String placeName,
     String? memo,
   }) async {
-    final trimmedName = placeName.trim();
-    if (trimmedName.isEmpty || isSaving) return;
+    final placeText = placeName.trim();
+    if (placeText.isEmpty || isSaving) return;
 
     isSaving = true;
     notifyListeners();
 
     try {
-      final position = await _determinePosition();
-      final memoText = memo?.trim();
+      printDebug("saveCurrentSpot 시작");
+      final placeText = placeName.trim();
+      String? memoText = memo?.trim();
+      final trimmedMemo = (memoText?.isEmpty ?? true) ? null : memoText;
+
       final imagePaths = selectedImages.isEmpty
           ? null
           : selectedImages.map((file) => file.path).toList();
+      final position = await _getCurrentPosition();
 
       final spot = Spot(
-        placeName: trimmedName,
-        memo: memoText?.isEmpty ?? true ? null : memoText,
+        placeName: placeText,
+        memo: trimmedMemo,
         imagePath: imagePaths,
         latitude: position.latitude,
         longitude: position.longitude,
@@ -62,15 +70,21 @@ class SaveCurrentLocationViewModel extends ChangeNotifier {
 
       await _spotService.addSpot(spot);
       selectedImages.clear();
+    } catch (e) {
+      throw Exception(e);
     } finally {
+      printDebug("addSpot 종료됨");
       isSaving = false;
       notifyListeners();
     }
   }
 
-  Future<Position> _determinePosition() async {
+  //MARK: 현재 위치 가져오기
+  Future<Position> _getCurrentPosition() async {
+    //MARK: 권한 체크 & 요청
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
+      //MARK: GPS 자체가 꺼져 있음
       throw Exception("위치 서비스가 꺼져 있습니다.");
     }
 
@@ -83,11 +97,14 @@ class SaveCurrentLocationViewModel extends ChangeNotifier {
     }
 
     if (permission == LocationPermission.deniedForever) {
-      throw Exception("위치 권한을 설정에서 허용해야 합니다.");
+      throw Exception("위치 권한이 영구적으로 거부되었습니다. 설정에서 권한을 허용해야 합니다.");
     }
 
-    return Geolocator.getCurrentPosition(
+    //MARK: 현재 위치 가져오기
+    Position position = await Geolocator.getCurrentPosition(
       locationSettings: const LocationSettings(accuracy: LocationAccuracy.high),
     );
+    debugPrint("현재 위치: 위도 ${position.latitude}, 경도 ${position.longitude}");
+    return position;
   }
 }

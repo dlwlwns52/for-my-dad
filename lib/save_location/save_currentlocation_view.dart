@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fms/Module/db/hive_Service.dart';
 import 'package:fms/Module/utils/snack_bar.dart';
 import 'package:fms/save_location/save_currentlocation_viewmodel.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -29,7 +30,7 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => SaveCurrentLocationViewModel(),
+      create: (_) => SaveCurrentLocationViewModel(SpotService()),
       builder: (context, _) {
         return ScaffoldMessenger(
           child: Builder(
@@ -614,14 +615,15 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
       padding: EdgeInsetsDirectional.fromSTEB(24.w, 0, 24.w, 0),
       child: Column(
         children: [
+          //MARK: 저장
           Consumer<SaveCurrentLocationViewModel>(
             builder: (context, vm, _) {
               return ValueListenableBuilder(
                 valueListenable: placeNameController,
-                builder: (BuildContext context, dynamic value, __) {
+                builder: (BuildContext context, dynamic value, _) {
                   final isEmpty = value.text.trim().isEmpty;
                   final isDisabled = isEmpty || vm.isSaving;
-                  return GestureDetector(
+                  return InkWell(
                     onTap: isDisabled
                         ? null
                         : () async {
@@ -634,31 +636,23 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
                               );
                               placeNameController.clear();
                               memoController.clear();
-                              if (!mounted) return;
+                              if (!context.mounted) return;
                               ScaffoldMessenger.of(
                                 context,
                               ).showSnackBar(customSnackBar("현재 위치를 저장했어요."));
                               Navigator.pop(context);
                             } catch (e) {
-                              if (!mounted) return;
-                              final message =
-                                  e.toString().replaceFirst(
-                                    "Exception: ",
-                                    "",
-                                  ) ??
-                                  "저장 중 오류가 발생했어요.";
+                              if (!context.mounted) return;
                               ScaffoldMessenger.of(
                                 context,
-                              ).showSnackBar(customSnackBar(message));
+                              ).showSnackBar(customSnackBar(e.toString()));
                             }
                           },
                     child: Container(
                       width: double.infinity,
                       height: 30.h,
                       decoration: BoxDecoration(
-                        color: isDisabled
-                            ? AppColors.forestGreen.withOpacity(0.4)
-                            : AppColors.forestGreen,
+                        color: isDisabled ? Colors.grey : AppColors.forestGreen,
                         borderRadius: BorderRadius.circular(5),
                       ),
                       child: Center(
@@ -690,12 +684,13 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
             },
           ),
           SizedBox(height: 15.h),
+          //MARK: 취소
           ValueListenableBuilder(
             valueListenable: placeNameController,
             builder: (BuildContext context, dynamic value, _) {
               final isEmpty = value.text.trim().isEmpty;
               bool isCancelClicked = false;
-              return GestureDetector(
+              return InkWell(
                 onTap: () {
                   if (context.read<SaveCurrentLocationViewModel>().isSaving) {
                     return;
