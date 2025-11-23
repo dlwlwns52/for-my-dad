@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fms/Module/db/hive_Service.dart';
 import 'package:fms/Module/utils/snack_bar.dart';
+import 'package:fms/StoreLocationViewmodel.dart';
 import 'package:fms/save_location/save_currentlocation_viewmodel.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -32,42 +33,40 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
     return ChangeNotifierProvider(
       create: (_) => SaveCurrentLocationViewModel(SpotService()),
       builder: (context, _) {
-        return ScaffoldMessenger(
-          child: Builder(
-            builder: (context) => Scaffold(
-              backgroundColor: Colors.transparent, // 투명하게 유지
-              body: Dialog(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                insetPadding: EdgeInsets.symmetric(
-                  vertical: 10.h,
-                  horizontal: 11.w,
-                ),
-                backgroundColor: const Color(0xFFF8FDF6),
-                child: GestureDetector(
-                  behavior: HitTestBehavior.translucent,
-                  onTap: () => FocusScope.of(context).unfocus(),
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      maxWidth: 373.w,
-                      maxHeight: 615.h,
-                    ),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _buildDialogHeader(context),
-                          SizedBox(height: 25.h),
-                          _buildPlaceNameField(context, placeNameController),
-                          SizedBox(height: 16.h),
-                          _buildMemoField(context, memoController),
-                          SizedBox(height: 19.h),
-                          _buildPhotoUploadSection(context),
-                          SizedBox(height: 19.h),
-                          _buildActionButtons(context),
-                        ],
-                      ),
+        return Builder(
+          builder: (context) => Scaffold(
+            backgroundColor: Colors.transparent, // 투명하게 유지
+            body: Dialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              insetPadding: EdgeInsets.symmetric(
+                vertical: 10.h,
+                horizontal: 11.w,
+              ),
+              backgroundColor: const Color(0xFFF8FDF6),
+              child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () => FocusScope.of(context).unfocus(),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: 373.w,
+                    maxHeight: 615.h,
+                  ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildDialogHeader(context),
+                        SizedBox(height: 25.h),
+                        _buildPlaceNameField(context, placeNameController),
+                        SizedBox(height: 16.h),
+                        _buildMemoField(context, memoController),
+                        SizedBox(height: 19.h),
+                        _buildPhotoUploadSection(context),
+                        SizedBox(height: 19.h),
+                        _buildActionButtons(context),
+                      ],
                     ),
                   ),
                 ),
@@ -634,6 +633,11 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
                                 placeName: placeNameController.text,
                                 memo: memoController.text,
                               );
+                              if (!context.mounted) return;
+                              await context
+                                  .read<StoreLocationViewmodel>()
+                                  .loadSpots();
+
                               placeNameController.clear();
                               memoController.clear();
                               if (!context.mounted) return;
