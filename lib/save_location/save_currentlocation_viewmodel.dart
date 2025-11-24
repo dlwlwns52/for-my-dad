@@ -58,12 +58,15 @@ class SaveCurrentLocationViewModel extends ChangeNotifier {
       final imagePaths = selectedImages.isEmpty
           ? null
           : selectedImages.map((file) => file.path).toList();
+      final now = DateTime.now();
+
       final position = await _getCurrentPosition();
 
       final spot = Spot(
         placeName: placeText,
         memo: trimmedMemo,
         imagePath: imagePaths,
+        createdAt: now,
         latitude: position.latitude,
         longitude: position.longitude,
       );
@@ -71,7 +74,7 @@ class SaveCurrentLocationViewModel extends ChangeNotifier {
       await _spotService.addSpot(spot);
       selectedImages.clear();
     } catch (e) {
-      throw Exception(e);
+      throw Exception(e.toString());
     } finally {
       printDebug("addSpot 종료됨");
       isSaving = false;

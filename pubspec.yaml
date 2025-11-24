@@ -13,7 +13,7 @@ dependencies:
 
   cupertino_icons: 1.0.8
   flutter_screenutil: 5.9.3
-  flutter_svg: 2.2.0
+  flutter_svg: ^2.2.2
   # 위치구하기
   geolocator: 14.0.2
   baseflow_plugin_template: 2.2.0
@@ -34,11 +34,18 @@ dependencies:
   # path_provider
   path_provider: ^2.1.5
 
+  #intl
+  intl: ^0.20.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: 5.0.0
+  flutter_lints: ^6.0.0
+
+  # Hive
+  build_runner: ^2.4.13
+  hive_generator: 2.0.1
 
 flutter:
   uses-material-design: true

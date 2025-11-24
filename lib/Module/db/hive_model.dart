@@ -20,12 +20,13 @@ class Spot {
   double longitude; // 경도
 
   @HiveField(5)
-  DateTime createdAt = DateTime.now();
+  DateTime createdAt; // 현재시간 설정
 
   Spot({
     required this.placeName,
     required this.memo,
     required this.imagePath,
+    required this.createdAt,
     required this.latitude,
     required this.longitude,
   });

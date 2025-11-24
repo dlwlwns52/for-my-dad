@@ -20,9 +20,10 @@ class SpotAdapter extends TypeAdapter<Spot> {
       placeName: fields[0] as String,
       memo: fields[1] as String?,
       imagePath: (fields[2] as List?)?.cast<String>(),
+      createdAt: fields[5] as DateTime,
       latitude: fields[3] as double,
       longitude: fields[4] as double,
-    )..createdAt = fields[5] as DateTime;
+    );
   }
 
   @override
