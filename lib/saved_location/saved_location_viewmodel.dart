@@ -48,16 +48,34 @@ class SavedLocationViewmodel extends ChangeNotifier {
     if (currentPosition == null) return "이전 화면으로 갔다가 다시 들어오셈";
 
     final distance = Geolocator.distanceBetween(
-      currentPosition!.latitude,
-      currentPosition!.longitude,
       spot.latitude,
       spot.longitude,
+      currentPosition!.latitude,
+      currentPosition!.longitude,
     );
-
+    printDebug("저장된 위치(saved): 위도 ${spot.latitude}, 경도 ${spot.longitude}");
+    printDebug(
+      "현재 위치(saved): 위도 ${currentPosition?.latitude}, 경도 ${currentPosition?.longitude}",
+    );
+    printDebug("거리 : $distance");
     if (distance < 1000) {
       return "${distance.toStringAsFixed(1)}m";
     } else {
       return "${(distance / 1000).toStringAsFixed(1)}km";
+    }
+  }
+
+  //MARK: 현재 정보 저장
+  Future<void> removeCurrentSpot({required int index}) async {
+    if (index == 0) return;
+    try {
+      printDebug("removeurrentSpot 시작");
+      await _spotService.deleteSpot(index);
+    } catch (e) {
+      throw Exception(e.toString());
+    } finally {
+      printDebug("removeurrentSpot 종료됨");
+      notifyListeners();
     }
   }
 }
