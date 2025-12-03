@@ -2,6 +2,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:fms/Module/db/hive_Service.dart';
 import 'package:fms/Module/db/hive_model.dart';
+import 'package:fms/Module/utils/logger.dart';
 import 'package:geolocator/geolocator.dart';
 // import 'package:geolocator/geolocator.dart';
 // import 'package:image_picker/image_picker.dart';
@@ -36,9 +37,11 @@ class SavedLocationViewmodel extends ChangeNotifier {
 
     //MARK: 현재 위치 가져오기
     currentPosition = await Geolocator.getCurrentPosition(
-      locationSettings: const LocationSettings(accuracy: LocationAccuracy.best),
+      locationSettings: const LocationSettings(
+        accuracy: LocationAccuracy.bestForNavigation,
+      ),
     );
-    debugPrint(
+    printDebug(
       "현재 위치(saved): 위도 ${currentPosition?.latitude}, 경도 ${currentPosition?.longitude}",
     );
     notifyListeners();
@@ -62,20 +65,6 @@ class SavedLocationViewmodel extends ChangeNotifier {
       return "${distance.toStringAsFixed(1)}m";
     } else {
       return "${(distance / 1000).toStringAsFixed(1)}km";
-    }
-  }
-
-  //MARK: 현재 정보 저장
-  Future<void> removeCurrentSpot({required int index}) async {
-    if (index == 0) return;
-    try {
-      printDebug("removeurrentSpot 시작");
-      await _spotService.deleteSpot(index);
-    } catch (e) {
-      throw Exception(e.toString());
-    } finally {
-      printDebug("removeurrentSpot 종료됨");
-      notifyListeners();
     }
   }
 }

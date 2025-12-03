@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fms/Module/db/hive_Service.dart';
 import 'package:fms/Module/utils/logger.dart';
+import 'package:fms/Module/utils/snack_bar.dart';
 import 'package:fms/StoreLocationViewmodel.dart';
 import 'package:fms/UIApplication/main_screen.dart';
 import 'package:fms/constants/app_colors.dart';
@@ -247,11 +248,21 @@ class SavedLocationsView extends StatelessWidget {
                                       onPressed: () {},
                                     ),
                                     const SizedBox(width: 8),
+                                    // 삭제
                                     _iconButton(
                                       icon: Icons.delete_outline,
                                       borderColor: const Color(0xFFD73B3B),
                                       iconColor: const Color(0xFFD73B3B),
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        showDeleteSpotDialog(
+                                          context: context,
+                                          spotName: spot.placeName,
+                                          onConfirm: () {
+                                            HapticFeedback.mediumImpact();
+                                            vm.removeCurrentSpot(index: index);
+                                          },
+                                        );
+                                      },
                                     ),
                                   ],
                                 ),
@@ -331,4 +342,138 @@ class SavedLocationsView extends StatelessWidget {
       ),
     );
   }
+}
+
+// 삭제 여부 물어보는 다이어로그
+Future<void> showDeleteSpotDialog({
+  required BuildContext context,
+  required String spotName,
+  required VoidCallback onConfirm,
+}) {
+  return showDialog(
+    context: context,
+    barrierDismissible: true,
+    builder: (context) {
+      return Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        insetPadding: const EdgeInsets.symmetric(horizontal: 24),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+          decoration: BoxDecoration(
+            color: const Color(0xFFF8FCF8),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // 경고 아이콘
+              Container(
+                alignment: Alignment.center,
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFFEFEF),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.warning_amber_rounded,
+                  color: Color(0xFFD73B3B),
+                  size: 40,
+                ),
+              ),
+
+              const SizedBox(height: 24),
+
+              // 제목
+              const Text(
+                "장소를 삭제하시겠습니까?",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF1E3A1E),
+                ),
+                textAlign: TextAlign.center,
+              ),
+
+              const SizedBox(height: 12),
+
+              // 장소 이름
+              Text(
+                "\"$spotName\"",
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF183317),
+                ),
+              ),
+
+              const SizedBox(height: 8),
+
+              // 안내 문구
+              const Text(
+                "이 장소를 삭제하면 복구할 수 없습니다.",
+                style: TextStyle(fontSize: 14, color: Color(0xFF9CA69C)),
+                textAlign: TextAlign.center,
+              ),
+
+              const SizedBox(height: 32),
+
+              // 버튼 영역
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        side: const BorderSide(color: Color(0xFFDBE5DB)),
+                      ),
+                      onPressed: () {
+                        HapticFeedback.mediumImpact();
+                        Navigator.pop(context);
+                      },
+                      child: const Text(
+                        "취소",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Color(0xFF1E3A1E),
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFD73B3B),
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      onPressed: () {
+                        HapticFeedback.mediumImpact();
+                        Navigator.pop(context);
+                        onConfirm();
+                      },
+                      child: const Text(
+                        "삭제",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
 }

@@ -40,19 +40,22 @@ class StoreLocationViewmodel extends ChangeNotifier {
     }
   }
 
-  Future<void> deleteAt(int index) async {
+  String formatDate(DateTime dt) {
+    return DateFormat('yyyy-MM-dd HH:mm').format(dt);
+  }
+
+  //MARK: 저장된 내용 삭제
+  Future<void> removeCurrentSpot({required int index}) async {
     try {
+      // isPendingDelete = false;
+      printDebug("removeurrentSpot 시작");
       await _spotService.deleteSpot(index);
       spots.removeAt(index);
       notifyListeners();
     } catch (e) {
-      error = '삭제 실패: $e';
-      printDebug("deleteAt 에러 : $e");
-      notifyListeners();
+      throw Exception(e.toString());
+    } finally {
+      printDebug("removeurrentSpot 종료됨");
     }
-  }
-
-  String formatDate(DateTime dt) {
-    return DateFormat('yyyy-MM-dd HH:mm').format(dt);
   }
 }

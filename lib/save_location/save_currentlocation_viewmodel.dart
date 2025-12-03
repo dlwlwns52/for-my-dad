@@ -107,7 +107,7 @@ class SaveCurrentLocationViewModel extends ChangeNotifier {
     Position position = await Geolocator.getCurrentPosition(
       locationSettings: const LocationSettings(accuracy: LocationAccuracy.best),
     );
-    debugPrint("현재 위치: 위도 ${position.latitude}, 경도 ${position.longitude}");
+    printDebug("현재 위치: 위도 ${position.latitude}, 경도 ${position.longitude}");
     return position;
   }
 }
