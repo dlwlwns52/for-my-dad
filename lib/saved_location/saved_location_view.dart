@@ -308,6 +308,86 @@ class SavedLocationsView extends StatelessWidget {
                                 ],
                               ),
                             ),
+                            const SizedBox(height: 12),
+                            if (spot.imagePath != null &&
+                                spot.imagePath!.isNotEmpty) ...[
+                              Stack(
+                                children: [
+                                  SizedBox(
+                                    height: 150.h,
+                                    width: double.infinity,
+                                    child: ListView.separated(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: spot.imagePath!.length,
+                                      separatorBuilder: (_, _) =>
+                                          const SizedBox(width: 8),
+                                      itemBuilder: (context, imgIndex) {
+                                        final images = spot.imagePath!;
+                                        final path = images[imgIndex];
+
+                                        return SizedBox(
+                                          width: 150,
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.circular(
+                                              12.r,
+                                            ),
+                                            child: Image.file(
+                                              File(path),
+                                              fit: BoxFit.cover,
+                                              errorBuilder:
+                                                  (context, error, stackTrace) {
+                                                    return Container(
+                                                      color: const Color(
+                                                        0xFFF4FAF1,
+                                                      ),
+                                                      alignment:
+                                                          Alignment.center,
+                                                      child: const Icon(
+                                                        Icons
+                                                            .image_not_supported,
+                                                        color: Color(
+                                                          0xFF6B8166,
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  if (spot.imagePath!.length > 2) ...[
+                                    Positioned(
+                                      top: 5.w,
+                                      right: 5.w,
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 4,
+                                          vertical: 2,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: Colors.black.withValues(
+                                            alpha: 0.3,
+                                          ),
+                                          borderRadius: BorderRadius.circular(
+                                            12,
+                                          ),
+                                        ),
+                                        child: Text(
+                                          '${spot.imagePath!.length}장',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 13.sp,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ],
+                              ),
+                            ],
                           ],
                         ),
                       ),
