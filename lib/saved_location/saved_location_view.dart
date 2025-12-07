@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fms/Module/db/hive_Service.dart';
+import 'package:fms/Module/image/image.dart';
 import 'package:fms/Module/utils/logger.dart';
 import 'package:fms/Module/utils/snack_bar.dart';
 import 'package:fms/StoreLocationViewmodel.dart';
@@ -187,17 +188,16 @@ class SavedLocationsView extends StatelessWidget {
                   ),
                 );
               }
-
-              // }
+              final reversed = vm.spots.reversed.toList();
               return Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16,
                   vertical: 18,
                 ),
                 child: ListView.builder(
-                  itemCount: vm.spots.length,
+                  itemCount: reversed.length,
                   itemBuilder: (context, index) {
-                    final spot = vm.spots[index];
+                    final spot = reversed[index];
                     final distance = savedVM.calculateDistance(spot);
                     return Container(
                       margin: const EdgeInsets.only(bottom: 16),
@@ -257,7 +257,11 @@ class SavedLocationsView extends StatelessWidget {
                                           spotName: spot.placeName,
                                           onConfirm: () {
                                             HapticFeedback.mediumImpact();
-                                            vm.removeCurrentSpot(index: index);
+                                            final originalIndex =
+                                                vm.spots.length - 1 - index;
+                                            vm.removeCurrentSpot(
+                                              index: originalIndex,
+                                            );
                                           },
                                         );
                                       },
