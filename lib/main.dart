@@ -40,7 +40,11 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true, // 글자 크기 조정
       splitScreenMode: true, // 앱 창 크기 변경시 자동 스케일링
       builder: (context, child) {
-        return MaterialApp(title: 'FMD', home: const MainScreen());
+        return MaterialApp(
+          title: 'FMD',
+          theme: ThemeData(fontFamily: 'Pretendard'),
+          home: const MainScreen(),
+        );
       },
     );
   }

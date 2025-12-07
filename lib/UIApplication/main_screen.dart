@@ -3,9 +3,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fms/StoreLocationViewmodel.dart';
 import 'package:fms/save_location/save_currentlocation_view.dart';
 import 'package:fms/constants/app_colors.dart';
 import 'package:flutter/services.dart'; // 햅틱용
+import 'package:provider/provider.dart';
+import '../saved_location/saved_location_view.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -36,7 +39,7 @@ class _MainScreenState extends State<MainScreen> {
                   SizedBox(height: 34.h),
                   _saveCurrentLocation(context),
                   SizedBox(height: 17.h),
-                  _viewSavedLocations(),
+                  _viewSavedLocations(context),
                   SizedBox(height: 50.h),
                   _tipsCard(),
                 ],
@@ -69,10 +72,9 @@ Widget _heroHeader() {
       ),
       SizedBox(height: 10.h),
       Text(
-        "산삼 스팟 저장",
+        "히든 스팟 저장",
         style: TextStyle(
           color: AppColors.forestGreen,
-          fontFamily: "Pretendard",
           fontSize: 30.sp,
           fontWeight: FontWeight.w800,
         ),
@@ -82,7 +84,6 @@ Widget _heroHeader() {
         "비밀 장소를 저장하고 다시 찾아가요!",
         style: TextStyle(
           color: Color(0xFF6B8065),
-          fontFamily: "Pretendard",
           fontSize: 18.sp,
           fontWeight: FontWeight.w600,
         ),
@@ -109,19 +110,21 @@ Widget _statCard() {
             "저장된 장소",
             style: TextStyle(
               color: Color(0xFF6B8065),
-              fontFamily: "Pretendard",
               fontSize: 18.sp,
               fontWeight: FontWeight.w700,
             ),
           ),
-          Text(
-            "0개",
-            style: TextStyle(
-              color: AppColors.forestGreen,
-              fontFamily: "Pretendard",
-              fontSize: 24.sp,
-              fontWeight: FontWeight.w800,
-            ),
+          Consumer<StoreLocationViewmodel>(
+            builder: (context, vm, _) {
+              return Text(
+                "${vm.spots.length}개",
+                style: TextStyle(
+                  color: AppColors.forestGreen,
+                  fontSize: 24.sp,
+                  fontWeight: FontWeight.w800,
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -173,7 +176,6 @@ Widget _saveCurrentLocation(BuildContext context) {
                   "현재 위치 저장하기",
                   style: TextStyle(
                     color: Colors.white,
-                    fontFamily: "Pretendard",
                     fontSize: 20.sp,
                     fontWeight: FontWeight.w600,
                   ),
@@ -188,7 +190,7 @@ Widget _saveCurrentLocation(BuildContext context) {
 }
 
 //MARK: 저장된 장소 보기
-Widget _viewSavedLocations() {
+Widget _viewSavedLocations(BuildContext context) {
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: 26.w),
     child: Material(
@@ -196,6 +198,10 @@ Widget _viewSavedLocations() {
       child: InkWell(
         borderRadius: BorderRadius.circular(15), // ripple도 radius 맞춰야 자연스러움
         onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => SavedLocationsView()),
+          );
           HapticFeedback.mediumImpact();
         },
         child: Container(
@@ -229,7 +235,6 @@ Widget _viewSavedLocations() {
                   "저장된 장소 보기",
                   style: TextStyle(
                     color: AppColors.forestGreen,
-                    fontFamily: "Pretendard",
                     fontSize: 20.sp,
                     fontWeight: FontWeight.w600,
                   ),
@@ -261,7 +266,6 @@ Widget _tipsCard() {
             "💡 사용 팁",
             style: TextStyle(
               color: AppColors.forestGreen,
-              fontFamily: "Pretendard",
               fontSize: 16.sp,
               fontWeight: FontWeight.w700,
             ),
@@ -272,7 +276,6 @@ Widget _tipsCard() {
             '• 오프라인에서도 내장된 기능이 작동합니다.\n'
             '• 정확도는 ±3m 입니다.',
             style: TextStyle(
-              fontFamily: "Pretendard",
               fontSize: 14.sp,
               fontWeight: FontWeight.w600,
               height: 1.6,

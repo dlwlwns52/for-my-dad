@@ -30,7 +30,6 @@ SnackBar customSnackBar(String message) {
               Text(
                 message,
                 style: TextStyle(
-                  fontFamily: "Pretendard",
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w700,
                   color: Color(0xFF5C3B00),

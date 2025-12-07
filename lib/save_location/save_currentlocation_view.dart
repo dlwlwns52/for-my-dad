@@ -103,7 +103,6 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: AppColors.forestGreen,
-                    fontFamily: "Pretendard",
                     fontSize: 18.sp,
                     fontWeight: FontWeight.w700,
                   ),
@@ -165,7 +164,6 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
               color: AppColors.midiumText,
-              fontFamily: "Pretendard",
               fontSize: 14.sp,
               fontWeight: FontWeight.w700,
             ),
@@ -176,7 +174,6 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
             // 입력하는 텍스트 스타일
             style: TextStyle(
               color: AppColors.midiumText,
-              fontFamily: "Pretendard",
               fontSize: 17.sp,
               fontWeight: FontWeight.w500,
             ),
@@ -186,7 +183,6 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
               hintText: "장소 이름을 입력하세요",
               hintStyle: TextStyle(
                 color: AppColors.forestGreen,
-                fontFamily: "Pretendard",
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500,
               ),
@@ -227,7 +223,6 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
               color: AppColors.midiumText,
-              fontFamily: "Pretendard",
               fontSize: 14.sp,
               fontWeight: FontWeight.w700,
             ),
@@ -240,7 +235,6 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
             // 입력하는 텍스트 스타일
             style: TextStyle(
               color: AppColors.midiumText,
-              fontFamily: "Pretendard",
               fontSize: 17.sp,
               fontWeight: FontWeight.w500,
             ),
@@ -251,7 +245,6 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
               counterText: "",
               hintStyle: TextStyle(
                 color: AppColors.forestGreen,
-                fontFamily: "Pretendard",
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500,
               ),
@@ -281,7 +274,6 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   color: Color(0xFF6B8166),
-                  fontFamily: "Pretendard",
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w700,
                 ),
@@ -306,7 +298,6 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
               color: AppColors.midiumText,
-              fontFamily: "Pretendard",
               fontSize: 14.sp,
               fontWeight: FontWeight.w700,
             ),
@@ -408,7 +399,6 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   color: Color(0xFF6B8166),
-                                  fontFamily: "Pretendard",
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w700,
                                 ),
@@ -457,7 +447,6 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               color: Color(0xFF6B8166),
-                              fontFamily: "Pretendard",
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w700,
                             ),
@@ -497,7 +486,6 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
                   '사진 추가',
                   style: TextStyle(
                     color: Color(0xFB183317),
-                    fontFamily: "Pretendard",
                     fontSize: 20.sp,
                     fontWeight: FontWeight.w700,
                   ),
@@ -538,7 +526,6 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
                           '사진 촬영',
                           style: TextStyle(
                             color: Color(0xFFFFFFFF),
-                            fontFamily: "Pretendard",
                             fontSize: 18.sp,
                             fontWeight: FontWeight.w600,
                           ),
@@ -570,7 +557,6 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
                       '앨범에서 선택',
                       style: TextStyle(
                         color: Color(0xFB183317),
-                        fontFamily: "Pretendard",
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w600,
                       ),
@@ -594,7 +580,6 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
                     '취소',
                     style: TextStyle(
                       color: Color(0xFF647A60),
-                      fontFamily: "Pretendard",
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w600,
                     ),
@@ -675,7 +660,6 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
                                 "저장",
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontFamily: "Pretendard",
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w700,
                                 ),
@@ -728,7 +712,6 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
                       "취소",
                       style: TextStyle(
                         color: Colors.black,
-                        fontFamily: "Pretendard",
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w700,
                       ),

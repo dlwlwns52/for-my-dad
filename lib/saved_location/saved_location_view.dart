@@ -37,7 +37,6 @@ class SavedLocationsView extends StatelessWidget {
                 color: AppColors.midiumText,
                 fontWeight: FontWeight.w700,
                 fontSize: 20.sp,
-                fontFamily: 'Pretendard',
               ),
             ),
           ),
@@ -99,7 +98,6 @@ class SavedLocationsView extends StatelessWidget {
                               "다시 시도하기",
                               style: TextStyle(
                                 color: Colors.white,
-                                fontFamily: "Pretendard",
                                 fontSize: 18.sp,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -176,7 +174,7 @@ class SavedLocationsView extends StatelessWidget {
                               "위치 저장하러 가기",
                               style: TextStyle(
                                 color: Colors.white,
-                                fontFamily: "Pretendard",
+
                                 fontSize: 18.sp,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -308,9 +306,9 @@ class SavedLocationsView extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            const SizedBox(height: 12),
                             if (spot.imagePath != null &&
                                 spot.imagePath!.isNotEmpty) ...[
+                              const SizedBox(height: 12),
                               Stack(
                                 children: [
                                   SizedBox(
