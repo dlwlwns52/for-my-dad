@@ -386,6 +386,38 @@ class SavedLocationsView extends StatelessWidget {
                                 ],
                               ),
                             ],
+
+                            if (spot.memo != null && spot.memo!.isNotEmpty) ...[
+                              SizedBox(height: 12.h),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 14,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFF7FBF5), // 연한 초록빛 배경
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.chat_bubble_outline_rounded,
+                                      color: Colors.grey[600],
+                                      size: 18.w,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      spot.memo!,
+                                      style: TextStyle(
+                                        fontSize: 14.sp,
+                                        color: Colors.grey[700],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ],
                         ),
                       ),
