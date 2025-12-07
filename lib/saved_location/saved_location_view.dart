@@ -327,32 +327,64 @@ class SavedLocationsView extends StatelessWidget {
                                         final images = spot.imagePath!;
                                         final path = images[imgIndex];
 
-                                        return SizedBox(
-                                          width: 150,
-                                          child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(
-                                              12.r,
-                                            ),
-                                            child: Image.file(
-                                              File(path),
-                                              fit: BoxFit.cover,
-                                              errorBuilder:
-                                                  (context, error, stackTrace) {
-                                                    return Container(
-                                                      color: const Color(
-                                                        0xFFF4FAF1,
+                                        return GestureDetector(
+                                          onTap: () async {
+                                            // 파일이 존재하지 않으면(에러 발생 시) 실행하지 않음
+                                            HapticFeedback.mediumImpact();
+                                            final exists = await File(
+                                              path,
+                                            ).exists();
+                                            if (!context.mounted) return;
+                                            if (exists) {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (_) =>
+                                                      FullScreenImageView(
+                                                        imagePath: path,
                                                       ),
-                                                      alignment:
-                                                          Alignment.center,
-                                                      child: const Icon(
-                                                        Icons
-                                                            .image_not_supported,
-                                                        color: Color(
-                                                          0xFF6B8166,
+                                                ),
+                                              );
+                                            } else {
+                                              ScaffoldMessenger.of(
+                                                context,
+                                              ).showSnackBar(
+                                                customSnackBar(
+                                                  "이미지 파일이 존재하지 않습니다.",
+                                                ),
+                                              );
+                                            }
+                                          },
+                                          child: SizedBox(
+                                            width: 150,
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(12.r),
+                                              child: Image.file(
+                                                File(path),
+                                                fit: BoxFit.cover,
+                                                errorBuilder:
+                                                    (
+                                                      context,
+                                                      error,
+                                                      stackTrace,
+                                                    ) {
+                                                      return Container(
+                                                        color: const Color(
+                                                          0xFFF4FAF1,
                                                         ),
-                                                      ),
-                                                    );
-                                                  },
+                                                        alignment:
+                                                            Alignment.center,
+                                                        child: const Icon(
+                                                          Icons
+                                                              .image_not_supported,
+                                                          color: Color(
+                                                            0xFF6B8166,
+                                                          ),
+                                                        ),
+                                                      );
+                                                    },
+                                              ),
                                             ),
                                           ),
                                         );
