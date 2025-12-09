@@ -36,6 +36,8 @@
 	<string>촬영한 사진을 갤러리에 저장하기 위해 사진 라이브러리 저장 권한이 필요합니다.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>갤러리에서 이미지를 선택하기 위해 사진 라이브러리 접근 권한이 필요합니다.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>이 앱은 백그라운드에서도 위치를 추적하기 위해 위치 권한이 필요합니다.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
