@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_compass/flutter_compass.dart';
+import 'package:fms/Module/utils/logger.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:fms/Module/location/location_service.dart';
 
 class CompassViewModel extends ChangeNotifier {
   final double targetLat;
@@ -35,19 +37,19 @@ class CompassViewModel extends ChangeNotifier {
     // 나침반 리스너
     _compassSubscription = FlutterCompass.events!.listen((event) {
       _heading = event.heading;
-      _accuracy = event.accuracy;
       notifyListeners();
     });
 
     // 위치 리스너
     const locationSettings = LocationSettings(
-      accuracy: LocationAccuracy.high,
-      distanceFilter: 5,
+      accuracy: LocationAccuracy.best,
+      distanceFilter: 3,
     );
 
     _positionSubscription =
         Geolocator.getPositionStream(locationSettings: locationSettings).listen(
           (position) {
+            _accuracy = position.accuracy;
             _calculateTargetInfo(position);
           },
         );
@@ -56,6 +58,7 @@ class CompassViewModel extends ChangeNotifier {
     Geolocator.getCurrentPosition(locationSettings: locationSettings).then((
       position,
     ) {
+      _accuracy = position.accuracy;
       _calculateTargetInfo(position);
     });
   }
