@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fms/Module/utils/logger.dart';
 import 'package:fms/compass/compass_viewmodel.dart';
 import 'package:fms/constants/app_colors.dart';
 import 'package:fms/Module/utils/swipe_back_detector.dart';
@@ -127,6 +128,22 @@ class CompassView extends StatelessWidget {
                             ),
                             child: Stack(
                               children: [
+                                // 눈금들
+                                ...List.generate(12, (index) {
+                                  return Transform.rotate(
+                                    angle: (index * 30) * (math.pi / 180),
+                                    child: Align(
+                                      alignment: Alignment.topCenter,
+                                      child: Container(
+                                        margin: EdgeInsets.only(top: 5),
+                                        width: 2,
+                                        height: index % 2 == 0 ? 15 : 10,
+                                        color: const Color(0xFFBAC7BA),
+                                      ),
+                                    ),
+                                  );
+                                }),
+
                                 // N
                                 Align(
                                   alignment: Alignment.topCenter,
@@ -187,21 +204,6 @@ class CompassView extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                // 눈금들
-                                ...List.generate(8, (index) {
-                                  return Transform.rotate(
-                                    angle: (index * 45) * (math.pi / 180),
-                                    child: Align(
-                                      alignment: Alignment.topCenter,
-                                      child: Container(
-                                        margin: EdgeInsets.only(top: 5),
-                                        width: 2,
-                                        height: index % 2 == 0 ? 15 : 10,
-                                        color: const Color(0xFFBAC7BA),
-                                      ),
-                                    ),
-                                  );
-                                }),
                               ],
                             ),
                           ),
@@ -270,17 +272,31 @@ class CompassView extends StatelessWidget {
                         borderRadius: BorderRadius.circular(16.r),
                         border: Border.all(color: Colors.white),
                       ),
-                      child: Center(
-                        child: Text(
-                          vm.accuracy != null
-                              ? "정확도: ±${vm.accuracy!.toStringAsFixed(0)}m"
-                              : "GPS 신호 찾는 중...",
-                          style: TextStyle(
-                            color: const Color(0xFF6B8166),
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w600,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            vm.accuracy != null
+                                ? "정확도: ±${vm.accuracy!.toStringAsFixed(0)}m"
+                                : "GPS 신호 찾는 중...",
+                            style: TextStyle(
+                              color: const Color(0xFF6B8166),
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
-                        ),
+                          if (vm.accuracy != null) ...[
+                            SizedBox(height: 4.h),
+                            Text(
+                              "이 반경 내에서는 위치 안내가 부정확할 수 있습니다.",
+                              style: TextStyle(
+                                color: const Color(0xFFA0B0A0),
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        ],
                       ),
                     ),
                   ],
