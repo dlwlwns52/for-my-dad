@@ -13,6 +13,7 @@ import 'package:fms/compass/compass_view.dart';
 import 'package:fms/constants/app_colors.dart';
 import 'package:fms/saved_location/saved_location_viewmodel.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SavedLocationsView extends StatelessWidget {
   const SavedLocationsView({super.key});
@@ -242,7 +243,32 @@ class SavedLocationsView extends StatelessWidget {
                                         icon: Icons.map,
                                         borderColor: const Color(0xFF2468E2),
                                         iconColor: const Color(0xFF2468E2),
-                                        onPressed: () {},
+                                        onPressed: () async {
+                                          final url = Uri.parse(
+                                            // 구글맵 :  "https://www.google.com/maps/search/?api=1&query=${spot.latitude},${spot.longitude}";
+                                            // 네이버맵 : "https://map.naver.com/v5/?c=${spot.longitude},${spot.latitude},15,0,0";
+                                            // 카카오맵 :  "https://map.kakao.com/link/map/${spot.latitude},${spot.longitude}";
+                                            "https://map.kakao.com/link/map/${spot.latitude},${spot.longitude}",
+                                            // "https://map.naver.com/v5/?c=${spot.longitude},${spot.latitude},15,0,0",
+                                          );
+                                          if (await canLaunchUrl(url)) {
+                                            await launchUrl(
+                                              url,
+                                              mode: LaunchMode
+                                                  .externalApplication,
+                                            );
+                                          } else {
+                                            if (context.mounted) {
+                                              ScaffoldMessenger.of(
+                                                context,
+                                              ).showSnackBar(
+                                                customSnackBar(
+                                                  "맵을 여는데 실패했습니다. \n 잠시후에 다시 시도해주세요",
+                                                ),
+                                              );
+                                            }
+                                          }
+                                        },
                                       ),
                                       const SizedBox(width: 8),
                                       _iconButton(
