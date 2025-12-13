@@ -20,11 +20,15 @@ class SaveCurrentLocationView extends StatefulWidget {
 class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
   final placeNameController = TextEditingController();
   final memoController = TextEditingController();
+  final FocusNode _placeNameFocusNode = FocusNode();
+  final FocusNode _memoFocusNode = FocusNode();
 
   @override
   void dispose() {
     placeNameController.dispose();
     memoController.dispose();
+    _placeNameFocusNode.dispose();
+    _memoFocusNode.dispose();
     super.dispose();
   }
 
@@ -171,6 +175,8 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
           SizedBox(height: 8.h),
           TextFormField(
             controller: placeNameController,
+            focusNode: _placeNameFocusNode,
+            textInputAction: TextInputAction.next,
             // 입력하는 텍스트 스타일
             style: TextStyle(
               color: AppColors.midiumText,
@@ -201,6 +207,9 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
                 ),
               ),
             ),
+            onFieldSubmitted: (val) {
+              FocusScope.of(context).requestFocus(_memoFocusNode);
+            },
           ),
         ],
       ),
@@ -230,6 +239,8 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
           SizedBox(height: 8.h),
           TextFormField(
             controller: memoController,
+            focusNode: _memoFocusNode,
+            textInputAction: TextInputAction.done,
             maxLength: 100,
             maxLines: 2,
             // 입력하는 텍스트 스타일
