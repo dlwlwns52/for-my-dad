@@ -55,9 +55,7 @@ class CompassViewModel extends ChangeNotifier {
         );
 
     // 초기값 가져오기
-    Geolocator.getCurrentPosition(locationSettings: locationSettings).then((
-      position,
-    ) {
+    LocationService().getCurrentPosition().then((position) {
       _accuracy = position.accuracy;
       _calculateTargetInfo(position);
     });
