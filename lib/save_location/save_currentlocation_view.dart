@@ -174,6 +174,7 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
           ),
           SizedBox(height: 8.h),
           TextFormField(
+            maxLength: 10,
             controller: placeNameController,
             focusNode: _placeNameFocusNode,
             textInputAction: TextInputAction.next,
@@ -186,6 +187,7 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
             cursorColor: AppColors.midiumText,
             cursorHeight: 20.0.h,
             decoration: InputDecoration(
+              counterText: "",
               hintText: "장소 이름을 입력하세요",
               hintStyle: TextStyle(
                 color: AppColors.forestGreen,
@@ -209,6 +211,22 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
             ),
             onFieldSubmitted: (val) {
               FocusScope.of(context).requestFocus(_memoFocusNode);
+            },
+          ),
+          SizedBox(height: 8.h),
+          ValueListenableBuilder(
+            valueListenable: placeNameController,
+            builder: (context, value, _) {
+              return Text(
+                "${value.text.length}/10자",
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: Color(0xFF6B8166),
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w700,
+                ),
+              );
             },
           ),
         ],
