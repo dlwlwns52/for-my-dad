@@ -480,7 +480,7 @@ class SavedLocationsView extends StatelessWidget {
                                   ),
                                   child: Row(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Icon(
                                         Icons.chat_bubble_outline_rounded,
@@ -488,11 +488,14 @@ class SavedLocationsView extends StatelessWidget {
                                         size: 18.w,
                                       ),
                                       const SizedBox(width: 8),
-                                      Text(
-                                        spot.memo!,
-                                        style: TextStyle(
-                                          fontSize: 14.sp,
-                                          color: Colors.grey[700],
+                                      Expanded(
+                                        child: Text(
+                                          spot.memo!,
+                                          style: TextStyle(
+                                            fontSize: 14.sp,
+                                            color: Colors.grey[700],
+                                            height: 1.4,
+                                          ),
                                         ),
                                       ),
                                     ],
