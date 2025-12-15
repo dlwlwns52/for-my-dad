@@ -9,6 +9,7 @@ import 'package:fms/constants/app_colors.dart';
 import 'package:flutter/services.dart'; // 햅틱용
 import 'package:dotted_border/dotted_border.dart';
 import 'package:provider/provider.dart';
+import 'package:fms/l10n/app_localizations.dart';
 
 class SaveCurrentLocationView extends StatefulWidget {
   const SaveCurrentLocationView({super.key});
@@ -102,7 +103,7 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
               SizedBox(width: 10.w),
               Expanded(
                 child: Text(
-                  "현재 위치를 저장하시겠습니까?",
+                  AppLocalizations.of(context)!.saveCurrentLocationTitle,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -137,11 +138,11 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
               style: TextStyle(fontSize: 13.sp, color: Color(0xFF6F8469)),
               children: [
                 TextSpan(
-                  text: "장소의 이름, 메모, 사진을 추가하여 나중에 쉽게 찾을 수 있도록",
+                  text: AppLocalizations.of(context)!.saveCurrentLocationDesc1,
                   style: TextStyle(fontWeight: FontWeight.w600),
                 ),
                 TextSpan(
-                  text: "저장하세요!",
+                  text: AppLocalizations.of(context)!.saveCurrentLocationDesc2,
                   style: TextStyle(fontWeight: FontWeight.w600),
                 ),
               ],
@@ -163,7 +164,7 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "장소 이름",
+            AppLocalizations.of(context)!.placeNameLabel,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
@@ -188,7 +189,7 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
             cursorHeight: 20.0.h,
             decoration: InputDecoration(
               counterText: "",
-              hintText: "장소 이름을 입력하세요",
+              hintText: AppLocalizations.of(context)!.placeNameHint,
               hintStyle: TextStyle(
                 color: AppColors.forestGreen,
                 fontSize: 16.sp,
@@ -218,7 +219,9 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
             valueListenable: placeNameController,
             builder: (context, value, _) {
               return Text(
-                "${value.text.length}/10자",
+                AppLocalizations.of(
+                  context,
+                )!.characterCount(value.text.length, 10),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
@@ -245,7 +248,7 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "메모 (선택사항)",
+            AppLocalizations.of(context)!.memoLabel,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
@@ -270,7 +273,7 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
             cursorColor: AppColors.midiumText,
             cursorHeight: 20.0.h,
             decoration: InputDecoration(
-              hintText: "장소 이름을 입력하세요",
+              hintText: AppLocalizations.of(context)!.memoHint,
               counterText: "",
               hintStyle: TextStyle(
                 color: AppColors.forestGreen,
@@ -298,7 +301,9 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
             valueListenable: memoController,
             builder: (context, value, _) {
               return Text(
-                "${value.text.length}/100자",
+                AppLocalizations.of(
+                  context,
+                )!.characterCount(value.text.length, 100),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
@@ -322,7 +327,7 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "사진 (선택사항)",
+            AppLocalizations.of(context)!.photoLabel,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
@@ -423,7 +428,7 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
                               ),
                               SizedBox(height: 8),
                               Text(
-                                "사진을 추가하려면 클릭하세요",
+                                AppLocalizations.of(context)!.addPhotoHint,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
@@ -471,7 +476,7 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
                           ),
                           SizedBox(height: 8),
                           Text(
-                            "사진을 추가하려면 클릭하세요",
+                            AppLocalizations.of(context)!.addPhotoHint,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -512,7 +517,7 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  '사진 추가',
+                  AppLocalizations.of(context)!.addPhotoTitle,
                   style: TextStyle(
                     color: Color(0xFB183317),
                     fontSize: 20.sp,
@@ -552,7 +557,7 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
                         ),
                         SizedBox(width: 12.w),
                         Text(
-                          '사진 촬영',
+                          AppLocalizations.of(context)!.takePhoto,
                           style: TextStyle(
                             color: Color(0xFFFFFFFF),
                             fontSize: 18.sp,
@@ -583,7 +588,7 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
                       size: 24,
                     ),
                     label: Text(
-                      '앨범에서 선택',
+                      AppLocalizations.of(context)!.pickFromGallery,
                       style: TextStyle(
                         color: Color(0xFB183317),
                         fontSize: 18.sp,
@@ -606,7 +611,7 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
                     Navigator.pop(context);
                   },
                   child: Text(
-                    '취소',
+                    AppLocalizations.of(context)!.cancel,
                     style: TextStyle(
                       color: Color(0xFF647A60),
                       fontSize: 16.sp,
@@ -655,9 +660,13 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
                               placeNameController.clear();
                               memoController.clear();
                               if (!context.mounted) return;
-                              ScaffoldMessenger.of(
-                                context,
-                              ).showSnackBar(customSnackBar("현재 위치를 저장했어요."));
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                customSnackBar(
+                                  AppLocalizations.of(
+                                    context,
+                                  )!.locationSavedSnapshot,
+                                ),
+                              );
                               Navigator.pop(context);
                             } catch (e) {
                               if (!context.mounted) return;
@@ -686,7 +695,7 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
                                 ),
                               )
                             : Text(
-                                "저장",
+                                AppLocalizations.of(context)!.save,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 16.sp,
@@ -719,7 +728,9 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
                     }
                     HapticFeedback.mediumImpact();
                     ScaffoldMessenger.of(context).showSnackBar(
-                      customSnackBar("한 번 더 취소를 누르면 입력한 내용이 사라집니다."),
+                      customSnackBar(
+                        AppLocalizations.of(context)!.cancelConfirmSnapshot,
+                      ),
                     );
                     isCancelClicked = true;
                   } else {
@@ -738,7 +749,7 @@ class _SaveCurrentLocationState extends State<SaveCurrentLocationView> {
                   ),
                   child: Center(
                     child: Text(
-                      "취소",
+                      AppLocalizations.of(context)!.cancel,
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 16.sp,

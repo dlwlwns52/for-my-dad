@@ -9,6 +9,7 @@ import 'package:fms/constants/app_colors.dart';
 import 'package:flutter/services.dart'; // 햅틱용
 import 'package:provider/provider.dart';
 import '../saved_location/saved_location_view.dart';
+import 'package:fms/l10n/app_localizations.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -33,15 +34,15 @@ class _MainScreenState extends State<MainScreen> {
                   SizedBox(
                     height: 30.h,
                   ), //Figma에서는 80인데 실 기기 사용시 30으로 수정하는게 피그마 ui랑 비슷해서 수정
-                  _heroHeader(),
+                  _heroHeader(context),
                   SizedBox(height: 50.h),
-                  _statCard(),
+                  _statCard(context),
                   SizedBox(height: 34.h),
                   _saveCurrentLocation(context),
                   SizedBox(height: 17.h),
                   _viewSavedLocations(context),
                   SizedBox(height: 50.h),
-                  _tipsCard(),
+                  _tipsCard(context),
                 ],
               ),
             ),
@@ -53,7 +54,7 @@ class _MainScreenState extends State<MainScreen> {
 }
 
 //MARK: 산삼 스팟 저장
-Widget _heroHeader() {
+Widget _heroHeader(BuildContext context) {
   return Column(
     children: [
       Container(
@@ -65,14 +66,15 @@ Widget _heroHeader() {
         ),
         alignment: Alignment.center,
         child: SvgPicture.asset(
-          'assets/icon/mountain.svg',
-          width: 37.w,
-          height: 33.w,
+          'assets/icon/compass.svg',
+          width: 42.w,
+          height: 42.w,
+          colorFilter: ColorFilter.mode(AppColors.forestGreen, BlendMode.srcIn),
         ),
       ),
       SizedBox(height: 10.h),
       Text(
-        "히든 스팟 저장",
+        AppLocalizations.of(context)!.hiddenSpot,
         style: TextStyle(
           color: AppColors.forestGreen,
           fontSize: 30.sp,
@@ -81,7 +83,7 @@ Widget _heroHeader() {
       ),
       SizedBox(height: 10.h),
       Text(
-        "비밀 장소를 저장하고 다시 찾아가요!",
+        AppLocalizations.of(context)!.heroDescription,
         style: TextStyle(
           color: Color(0xFF6B8065),
           fontSize: 18.sp,
@@ -93,7 +95,7 @@ Widget _heroHeader() {
 }
 
 //MARK: 현재 위치 저장하기 저장된 장소
-Widget _statCard() {
+Widget _statCard(BuildContext context) {
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: 26.w),
     child: Container(
@@ -107,7 +109,7 @@ Widget _statCard() {
         children: [
           SizedBox(height: 15.h),
           Text(
-            "저장된 장소",
+            AppLocalizations.of(context)!.savedLocation,
             style: TextStyle(
               color: Color(0xFF6B8065),
               fontSize: 18.sp,
@@ -117,7 +119,8 @@ Widget _statCard() {
           Consumer<StoreLocationViewmodel>(
             builder: (context, vm, _) {
               return Text(
-                "${vm.spots.length}개",
+                // "${vm.spots.length}개",
+                AppLocalizations.of(context)!.spotCount(vm.spots.length),
                 style: TextStyle(
                   color: AppColors.forestGreen,
                   fontSize: 24.sp,
@@ -173,7 +176,7 @@ Widget _saveCurrentLocation(BuildContext context) {
                 ),
                 SizedBox(width: 15.w),
                 Text(
-                  "현재 위치 저장하기",
+                  AppLocalizations.of(context)!.saveCurrentLocation,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20.sp,
@@ -232,7 +235,7 @@ Widget _viewSavedLocations(BuildContext context) {
                 ),
                 SizedBox(width: 15.w),
                 Text(
-                  "저장된 장소 보기",
+                  AppLocalizations.of(context)!.viewSavedLocation,
                   style: TextStyle(
                     color: AppColors.forestGreen,
                     fontSize: 20.sp,
@@ -249,7 +252,7 @@ Widget _viewSavedLocations(BuildContext context) {
 }
 
 //MARK: 사용 팁
-Widget _tipsCard() {
+Widget _tipsCard(BuildContext context) {
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: 26.w),
     child: Container(
@@ -263,7 +266,7 @@ Widget _tipsCard() {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "💡 사용 팁",
+            AppLocalizations.of(context)!.tipsTitle,
             style: TextStyle(
               color: AppColors.forestGreen,
               fontSize: 16.sp,
@@ -272,9 +275,9 @@ Widget _tipsCard() {
           ),
           SizedBox(height: 14.h),
           Text(
-            '• 장소를 저장할 때 메모와 사진을 추가할 수 있습니다.\n'
-            '• 오프라인에서도 내장된 기능이 작동합니다.\n'
-            '• 정확도는 ±3m 입니다.',
+            '${AppLocalizations.of(context)!.mainGuide1}\n'
+            '${AppLocalizations.of(context)!.mainGuide2}\n'
+            '${AppLocalizations.of(context)!.mainGuide3}\n',
             style: TextStyle(
               fontSize: 14.sp,
               fontWeight: FontWeight.w600,

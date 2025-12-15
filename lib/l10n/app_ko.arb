@@ -1,0 +1,81 @@
+{
+  "@@locale": "ko",
+  "appTitle": "FMD",
+  "hiddenSpot": "히든스팟",
+  "heroDescription": "비밀 장소를 저장하고 다시 찾아가요!",
+  "savedLocation": "저장된 장소",
+  "saveCurrentLocation": "현재 위치 저장하기",
+  "viewSavedLocation": "저장된 장소 보기",
+  "tipsTitle": "💡 사용 팁",
+  "mainGuide1": "• 산삼·낚시 등 나만의 히든 스팟을 저장하세요!",
+  "mainGuide2": "• 장소를 저장할 때 메모와 사진을 추가할 수 있습니다.",
+  "mainGuide3": "• 오프라인에서도 모든 기능을 사용할 수 있습니다.",
+
+  "loadingFail": "불러오기 실패하였습니다.",
+  "retry": "다시 시도하기",
+  "noSavedSpots": "저장된 장소가 없습니다",
+  "addFirstSpot": "첫 번째 비밀 장소를 저장해보세요!",
+  "goToSave": "위치 저장하러 가기",
+  "distance": "거리: ",
+  "savedAt": "저장: ",
+  "imageCount": "{count}장",
+  "@imageCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteDialogTitle": "장소를 삭제하시겠습니까?",
+  "deleteDialogDesc": "이 장소를 삭제하면 복구할 수 없습니다.",
+  "cancel": "취소",
+  "delete": "삭제",
+  "mapOpenFail": "맵을 여는데 실패했습니다.\n잠시후에 다시 시도해주세요",
+  "imageFileNotFound": "이미지 파일이 존재하지 않습니다.",
+
+  "saveCurrentLocationTitle": "현재 위치를 저장하시겠습니까?",
+  "saveCurrentLocationDesc1": "장소의 이름, 메모, 사진을 추가하여 나중에 쉽게 찾을 수 있도록",
+  "saveCurrentLocationDesc2": "저장하세요!",
+  "placeNameLabel": "장소 이름",
+  "placeNameHint": "장소 이름을 입력하세요",
+  "memoLabel": "메모 (선택사항)",
+  "memoHint": "메모를 입력하세요",
+  "photoLabel": "사진 (선택사항)",
+  "addPhotoHint": "사진을 추가하려면 클릭하세요",
+  "addPhotoTitle": "사진 추가",
+  "takePhoto": "사진 촬영",
+  "pickFromGallery": "앨범에서 선택",
+  "save": "저장",
+  "locationSavedSnapshot": "현재 위치를 저장했어요.",
+  "cancelConfirmSnapshot": "한 번 더 취소를 누르면 입력한 내용이 사라집니다.",
+
+  "compassTitle": "나침반",
+  "distanceAndDirection": "목적지까지의 거리와 방향",
+  "distanceToDest": "목적지까지 거리",
+  "accuracyLabel": "정확도: ±{accuracy}m",
+  "@accuracyLabel": {
+    "placeholders": {
+      "accuracy": {
+        "type": "String"
+      }
+    }
+  },
+  "gpsSearching": "GPS 신호 찾는 중...",
+  "accuracyWarning": "이 반경 내에서는 위치 안내가 부정확할 수 있습니다.",
+
+  "spotCount": "{count}개",
+  "@spotCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "characterCount": "{current}/{max}자",
+  "@characterCount": {
+    "placeholders": {
+      "current": { "type": "int" },
+      "max": { "type": "int" }
+    }
+  }
+}

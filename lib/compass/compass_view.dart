@@ -6,6 +6,7 @@ import 'package:fms/compass/compass_viewmodel.dart';
 import 'package:fms/constants/app_colors.dart';
 import 'package:fms/Module/utils/swipe_back_detector.dart';
 import 'package:provider/provider.dart';
+import 'package:fms/l10n/app_localizations.dart';
 
 class CompassView extends StatelessWidget {
   final String placeName;
@@ -28,7 +29,7 @@ class CompassView extends StatelessWidget {
         backgroundColor: const Color(0xFFE8FCEF), // 연한 민트색 배경
         appBar: AppBar(
           title: Text(
-            "나침반",
+            AppLocalizations.of(context)!.compassTitle,
             style: TextStyle(
               color: AppColors.forestGreen,
               fontSize: 20.sp,
@@ -88,7 +89,7 @@ class CompassView extends StatelessWidget {
                           ),
                           SizedBox(height: 8.h),
                           Text(
-                            "목적지까지의 거리와 방향",
+                            AppLocalizations.of(context)!.distanceAndDirection,
                             style: TextStyle(
                               color: const Color(0xFF8E9B8E),
                               fontSize: 16.sp,
@@ -250,7 +251,7 @@ class CompassView extends StatelessWidget {
                           ),
                           SizedBox(height: 8.h),
                           Text(
-                            "목적지까지 거리",
+                            AppLocalizations.of(context)!.distanceToDest,
                             style: TextStyle(
                               color: const Color(0xFF8E9B8E),
                               fontSize: 16.sp,
@@ -277,8 +278,10 @@ class CompassView extends StatelessWidget {
                         children: [
                           Text(
                             vm.accuracy != null
-                                ? "정확도: ±${vm.accuracy!.toStringAsFixed(0)}m"
-                                : "GPS 신호 찾는 중...",
+                                ? AppLocalizations.of(context)!.accuracyLabel(
+                                    vm.accuracy!.toStringAsFixed(0),
+                                  )
+                                : AppLocalizations.of(context)!.gpsSearching,
                             style: TextStyle(
                               color: const Color(0xFF6B8166),
                               fontSize: 16.sp,
@@ -288,7 +291,7 @@ class CompassView extends StatelessWidget {
                           if (vm.accuracy != null) ...[
                             SizedBox(height: 4.h),
                             Text(
-                              "이 반경 내에서는 위치 안내가 부정확할 수 있습니다.",
+                              AppLocalizations.of(context)!.accuracyWarning,
                               style: TextStyle(
                                 color: const Color(0xFFA0B0A0),
                                 fontSize: 12.sp,

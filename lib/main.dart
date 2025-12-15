@@ -7,6 +7,8 @@ import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:fms/Module/db/hive_model.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:fms/l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,6 +45,17 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           title: 'FMD',
           theme: ThemeData(fontFamily: 'Pretendard'),
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('ko'), // Korean
+            Locale('en'), // English
+            Locale('ja'), // Japanese
+          ],
           home: const MainScreen(),
         );
       },

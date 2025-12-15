@@ -14,6 +14,7 @@ import 'package:fms/constants/app_colors.dart';
 import 'package:fms/saved_location/saved_location_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:fms/l10n/app_localizations.dart';
 
 class SavedLocationsView extends StatelessWidget {
   const SavedLocationsView({super.key});
@@ -35,13 +36,17 @@ class SavedLocationsView extends StatelessWidget {
             ),
             scrolledUnderElevation: 0,
             centerTitle: true,
-            title: Text(
-              '저장된 장소',
-              style: TextStyle(
-                color: AppColors.midiumText,
-                fontWeight: FontWeight.w700,
-                fontSize: 20.sp,
-              ),
+            title: Consumer<StoreLocationViewmodel>(
+              builder: (context, vm, child) {
+                return Text(
+                  "${AppLocalizations.of(context)!.savedLocation} ${AppLocalizations.of(context)!.spotCount(vm.spots.length)}",
+                  style: TextStyle(
+                    color: AppColors.midiumText,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20.sp,
+                  ),
+                );
+              },
             ),
           ),
 
@@ -69,7 +74,7 @@ class SavedLocationsView extends StatelessWidget {
                         ),
                         SizedBox(height: 20),
                         Text(
-                          "불러오기 실패하였습니다.",
+                          AppLocalizations.of(context)!.loadingFail,
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -102,7 +107,7 @@ class SavedLocationsView extends StatelessWidget {
                             ),
                             child: Center(
                               child: Text(
-                                "다시 시도하기",
+                                AppLocalizations.of(context)!.retry,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 18.sp,
@@ -130,7 +135,7 @@ class SavedLocationsView extends StatelessWidget {
                         ),
                         SizedBox(height: 20),
                         Text(
-                          "저장된 장소가 없습니다",
+                          AppLocalizations.of(context)!.noSavedSpots,
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -139,7 +144,7 @@ class SavedLocationsView extends StatelessWidget {
                         ),
                         SizedBox(height: 10),
                         Text(
-                          "첫 번째 비밀 장소를 저장해보세요!",
+                          AppLocalizations.of(context)!.addFirstSpot,
                           style: TextStyle(
                             fontSize: 15,
                             color: Color(0xFF6B8166),
@@ -178,7 +183,7 @@ class SavedLocationsView extends StatelessWidget {
                             ),
                             child: Center(
                               child: Text(
-                                "위치 저장하러 가기",
+                                AppLocalizations.of(context)!.goToSave,
                                 style: TextStyle(
                                   color: Colors.white,
 
@@ -244,12 +249,13 @@ class SavedLocationsView extends StatelessWidget {
                                         borderColor: const Color(0xFF2468E2),
                                         iconColor: const Color(0xFF2468E2),
                                         onPressed: () async {
+                                          final locale = Localizations.localeOf(
+                                            context,
+                                          ).languageCode;
                                           final url = Uri.parse(
-                                            // 구글맵 :  "https://www.google.com/maps/search/?api=1&query=${spot.latitude},${spot.longitude}";
-                                            // 네이버맵 : "https://map.naver.com/v5/?c=${spot.longitude},${spot.latitude},15,0,0";
-                                            // 카카오맵 :  "https://map.kakao.com/link/map/${spot.latitude},${spot.longitude}";
-                                            "https://map.kakao.com/link/map/${spot.latitude},${spot.longitude}",
-                                            // "https://map.naver.com/v5/?c=${spot.longitude},${spot.latitude},15,0,0",
+                                            locale == 'ko'
+                                                ? "https://map.kakao.com/link/map/${spot.latitude},${spot.longitude}"
+                                                : "https://www.google.com/maps/search/?api=1&query=${spot.latitude},${spot.longitude}",
                                           );
                                           if (await canLaunchUrl(url)) {
                                             await launchUrl(
@@ -263,7 +269,9 @@ class SavedLocationsView extends StatelessWidget {
                                                 context,
                                               ).showSnackBar(
                                                 customSnackBar(
-                                                  "맵을 여는데 실패했습니다. \n 잠시후에 다시 시도해주세요",
+                                                  AppLocalizations.of(
+                                                    context,
+                                                  )!.mapOpenFail,
                                                 ),
                                               );
                                             }
@@ -316,7 +324,7 @@ class SavedLocationsView extends StatelessWidget {
                               const SizedBox(height: 12),
                               Text.rich(
                                 TextSpan(
-                                  text: '거리: ',
+                                  text: AppLocalizations.of(context)!.distance,
                                   style: TextStyle(
                                     color: Color(0xFF647A60),
                                     fontWeight: FontWeight.w500,
@@ -336,7 +344,7 @@ class SavedLocationsView extends StatelessWidget {
                               const SizedBox(height: 4),
                               Text.rich(
                                 TextSpan(
-                                  text: '저장: ',
+                                  text: AppLocalizations.of(context)!.savedAt,
                                   style: TextStyle(
                                     color: Color(0xFF647A60),
                                     fontWeight: FontWeight.w500,
@@ -393,7 +401,9 @@ class SavedLocationsView extends StatelessWidget {
                                                   context,
                                                 ).showSnackBar(
                                                   customSnackBar(
-                                                    "이미지 파일이 존재하지 않습니다.",
+                                                    AppLocalizations.of(
+                                                      context,
+                                                    )!.imageFileNotFound,
                                                   ),
                                                 );
                                               }
@@ -452,7 +462,11 @@ class SavedLocationsView extends StatelessWidget {
                                             ),
                                           ),
                                           child: Text(
-                                            '${spot.imagePath!.length}장',
+                                            AppLocalizations.of(
+                                              context,
+                                            )!.imageCount(
+                                              spot.imagePath!.length,
+                                            ),
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w600,
@@ -579,8 +593,8 @@ Future<void> showDeleteSpotDialog({
               const SizedBox(height: 24),
 
               // 제목
-              const Text(
-                "장소를 삭제하시겠습니까?",
+              Text(
+                AppLocalizations.of(context)!.deleteDialogTitle,
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
@@ -604,8 +618,8 @@ Future<void> showDeleteSpotDialog({
               const SizedBox(height: 8),
 
               // 안내 문구
-              const Text(
-                "이 장소를 삭제하면 복구할 수 없습니다.",
+              Text(
+                AppLocalizations.of(context)!.deleteDialogDesc,
                 style: TextStyle(fontSize: 14, color: Color(0xFF9CA69C)),
                 textAlign: TextAlign.center,
               ),
@@ -628,8 +642,8 @@ Future<void> showDeleteSpotDialog({
                         HapticFeedback.mediumImpact();
                         Navigator.pop(context);
                       },
-                      child: const Text(
-                        "취소",
+                      child: Text(
+                        AppLocalizations.of(context)!.cancel,
                         style: TextStyle(
                           fontSize: 16,
                           color: Color(0xFF1E3A1E),
@@ -653,8 +667,8 @@ Future<void> showDeleteSpotDialog({
                         Navigator.pop(context);
                         onConfirm();
                       },
-                      child: const Text(
-                        "삭제",
+                      child: Text(
+                        AppLocalizations.of(context)!.delete,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
