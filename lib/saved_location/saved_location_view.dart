@@ -27,7 +27,7 @@ class SavedLocationsView extends StatelessWidget {
       builder: (context, _) {
         final savedVM = context.watch<SavedLocationViewmodel>();
         return Scaffold(
-          backgroundColor: AppColors.storeSpotBackground,
+          backgroundColor: AppColors.background,
           appBar: AppBar(
             backgroundColor: Color(0xFFFFFFFF),
             leading: IconButton(
