@@ -28,6 +28,7 @@ class CompassView extends StatelessWidget {
       child: Scaffold(
         backgroundColor: const Color(0xFFE8FCEF), // 연한 민트색 배경
         appBar: AppBar(
+          scrolledUnderElevation: 0,
           title: Text(
             AppLocalizations.of(context)!.compassTitle,
             style: TextStyle(
