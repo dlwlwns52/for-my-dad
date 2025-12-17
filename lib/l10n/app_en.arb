@@ -25,6 +25,9 @@
   "mapOpenFail": "Failed to open map.\nPlease try again later.",
   "imageFileNotFound": "Image file not found.",
 
+
+  "locationCheckInProgress": "Checking location... (Check permissions if this persists)",
+  
   "saveCurrentLocationTitle": "Save current location?",
   "saveCurrentLocationDesc1": "Add a name, memo, and photos to easily find",
   "saveCurrentLocationDesc2": "your spot later!",

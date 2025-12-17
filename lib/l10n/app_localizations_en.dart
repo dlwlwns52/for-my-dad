@@ -160,4 +160,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String characterCount(int current, int max) {
     return '$current/$max';
   }
+
+  @override
+  String get locationCheckInProgress =>
+      'Checking location... (Check permissions if this persists)';
 }

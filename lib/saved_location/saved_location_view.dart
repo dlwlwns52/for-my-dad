@@ -209,7 +209,7 @@ class SavedLocationsView extends StatelessWidget {
                     itemCount: reversed.length,
                     itemBuilder: (context, index) {
                       final spot = reversed[index];
-                      final distance = savedVM.calculateDistance(spot);
+                      final distance = savedVM.calculateDistance(context, spot);
                       return Container(
                         margin: const EdgeInsets.only(bottom: 16),
                         decoration: BoxDecoration(

@@ -1,8 +1,10 @@
 // import 'dart:io';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:fms/Module/db/hive_Service.dart';
 import 'package:fms/Module/db/hive_model.dart';
 import 'package:fms/Module/utils/logger.dart';
+import 'package:fms/l10n/app_localizations.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:fms/Module/location/location_service.dart';
 // import 'package:geolocator/geolocator.dart';
@@ -26,8 +28,11 @@ class SavedLocationViewmodel extends ChangeNotifier {
     }
   }
 
-  String calculateDistance(Spot spot) {
-    if (currentPosition == null) return "위치 확인 중...";
+  String calculateDistance(BuildContext context, Spot spot) {
+    if (currentPosition == null) {
+      return AppLocalizations.of(context)!.locationCheckInProgress;
+    }
+    // "위치 확인 중... (지속되면 위치 권한을 확인해 주세요)";
 
     final distance = Geolocator.distanceBetween(
       spot.latitude,

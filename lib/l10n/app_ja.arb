@@ -25,6 +25,8 @@
   "mapOpenFail": "マップを開けませんでした。\n後でもう一度お試しください。",
   "imageFileNotFound": "画像ファイルが見つかりません。",
 
+  "locationCheckInProgress": "位置情報を確認中... (続く場合は位置情報の権限を確認してください)",
+
   "saveCurrentLocationTitle": "現在地を保存しますか？",
   "saveCurrentLocationDesc1": "場所の名前、メモ、写真を追加して、後で",
   "saveCurrentLocationDesc2": "見つけやすくしましょう！",

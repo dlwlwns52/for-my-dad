@@ -381,6 +381,12 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'{current}/{max}자'**
   String characterCount(int current, int max);
+
+  /// No description provided for @locationCheckInProgress.
+  ///
+  /// In ko, this message translates to:
+  /// **'위치 확인 중... (지속되면 위치 권한을 확인해 주세요)'**
+  String get locationCheckInProgress;
 }
 
 class _AppLocalizationsDelegate

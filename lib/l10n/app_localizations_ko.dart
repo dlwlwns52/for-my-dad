@@ -156,4 +156,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String characterCount(int current, int max) {
     return '$current/$max자';
   }
+
+  @override
+  String get locationCheckInProgress => '위치 확인 중... (지속되면 위치 권한을 확인해 주세요)';
 }
