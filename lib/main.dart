@@ -43,6 +43,7 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true, // 앱 창 크기 변경시 자동 스케일링
       builder: (context, child) {
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           title: 'FMD',
           theme: ThemeData(fontFamily: 'Pretendard'),
           localizationsDelegates: const [
